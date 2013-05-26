@@ -1,4 +1,0 @@
-okias-overlay
-=============
-
-Gentoo overlay
