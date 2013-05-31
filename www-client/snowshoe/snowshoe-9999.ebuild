@@ -10,7 +10,7 @@ if [[ ${PV} == "9999" ]]; then
 	KEYWORDS=""
 fi
 
-inherit multilib qt5 ${VCS_ECLASS}
+inherit qmake-utils ${VCS_ECLASS}
 
 DESCRIPTION="Qt5 WebKit web browser"
 HOMEPAGE="http://snowshoe.openbossa.org/"

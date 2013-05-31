@@ -7,7 +7,7 @@ EAPI=5
 EGIT_REPO_URI="git://gitorious.org/${PN}/${PN}.git
 	https://git.gitorious.org/${PN}/${PN}.git"
 
-inherit qt5 git-2
+inherit qmake-utils git-2
 
 DESCRIPTION="QtQuick/QML components and models"
 HOMEPAGE="http://qt.gitorious.org/qt-components/qt-components"

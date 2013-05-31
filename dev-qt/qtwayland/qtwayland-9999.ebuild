@@ -12,7 +12,7 @@ if [[ ${PV} == "9999" ]]; then
 	KEYWORDS="~amd64"
 fi
 
-inherit multilib qt5 ${VCS_ECLASS}
+inherit qmake-utils ${VCS_ECLASS}
 
 DESCRIPTION="Wayland plugin for Qt"
 HOMEPAGE="http://qt-project.org/wiki/QtWayland"
