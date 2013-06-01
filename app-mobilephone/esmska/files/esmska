@@ -1,3 +1,3 @@
-#!/bin/sh
-cd /usr/share/esmska
+#!/bin/bash
+cd /usr/share/esmska/
 java -jar esmska.jar $*
