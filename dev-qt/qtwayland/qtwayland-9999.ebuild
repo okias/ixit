@@ -8,8 +8,7 @@ if [[ ${PV} == "9999" ]]; then
 	VCS_ECLASS=git-2
 	EGIT_REPO_URI="git://gitorious.org/qt/${PN}.git"
 	EGIT_MASTER="stable"
-	#EGIT_COMMIT="279eecadaead90a16c5603aa35353f027faca295"
-	KEYWORDS="~amd64"
+	KEYWORDS="~arm ~amd64 ~x86"
 fi
 
 inherit qmake-utils ${VCS_ECLASS}
@@ -27,7 +26,7 @@ RDEPEND="${DEPEND}"
 
 src_configure() {
 	use wayland-compositor && CONFIG+=wayland-compositor
-	eqmake5
+	eqmake5 $CONFIG
 }
 
 pkg_postinst() {
