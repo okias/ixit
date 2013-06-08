@@ -11,7 +11,7 @@ if [[ ${PV} == "9999" ]]; then
 	KEYWORDS="~arm ~amd64 ~x86"
 fi
 
-inherit qmake-utils ${VCS_ECLASS}
+inherit qt5 ${VCS_ECLASS}
 
 DESCRIPTION="Wayland plugin for Qt"
 HOMEPAGE="http://qt-project.org/wiki/QtWayland"
@@ -26,7 +26,7 @@ RDEPEND="${DEPEND}"
 
 src_configure() {
 	use wayland-compositor && CONFIG+=wayland-compositor
-	eqmake5 $CONFIG
+	eqmake5
 }
 
 pkg_postinst() {
