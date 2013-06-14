@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<herd>proxy-maintainers</herd>
+	<herd>qt</herd>
+	<maintainer>
+		<email>nikoli@lavabit.com</email>
+		<name>Nikoli</name>
+	</maintainer>
+	<upstream>
+		<remote-id type="google-code">quite-rss</remote-id>
+		<bugs-to>https://code.google.com/p/quite-rss/issues</bugs-to>
+	</upstream>
+</pkgmetadata>
