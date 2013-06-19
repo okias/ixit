@@ -21,7 +21,7 @@ SLOT="0"
 IUSE="wayland-compositor"
 
 DEPEND="
-	>=dev-qt/qtwebkit-5.1.0_beta1:5"
+	>=dev-qt/qtwebkit-5.1.0_rc1:5"
 RDEPEND="${DEPEND}"
 
 src_configure() {
