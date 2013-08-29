@@ -49,7 +49,7 @@ pkg_setup() {
 src_prepare() {
 	epatch "${FILESDIR}/1.9-scripts-location.patch"
 	epatch "${FILESDIR}/1.9-distutils.unixccompiler.UnixCCompiler.runtime_library_dir_option.patch"
-
+	epatch "${FILESDIR}/2.1-distutils-fix_handling_of_executables_and_flags.patch"
 	epatch_user
 }
 
