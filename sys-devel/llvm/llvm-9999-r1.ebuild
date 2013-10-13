@@ -47,7 +47,8 @@ RDEPEND="dev-lang/perl
 			${PYTHON_DEPS}
 		)
 	)
-	tinfo? ( sys-libs/ncurses[tinfo] )
+	ncurses? ( sys-libs/ncurses )
+	tinfo? (   sys-libs/ncurses[tinfo] )
 	udis86? ( dev-libs/udis86[pic(+),${MULTILIB_USEDEP}] )
 	clang? ( !<=sys-devel/clang-9999-r99 )
 	abi_x86_32? ( !<=app-emulation/emul-linux-x86-baselibs-20130224-r2
@@ -56,6 +57,7 @@ RDEPEND="dev-lang/perl
 # pypy gives me around 1700 unresolved tests due to open file limit
 # being exceeded. probably GC does not close them fast enough.
 REQUIRED_USE="${PYTHON_REQUIRED_USE}
+	tinfo? ( ncurses )
 	test? ( || ( $(python_gen_useflags 'python*') ) )"
 
 pkg_pretend() {
