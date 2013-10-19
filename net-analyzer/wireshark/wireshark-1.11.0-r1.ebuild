@@ -97,7 +97,8 @@ src_prepare() {
 		"${FILESDIR}"/${PN}-1.6.13-ldflags.patch
 
 	if use qt5; then
-		epatch "${FILESDIR}/${PN}-1.11.0-qt5fix.patch"
+		export UIC="/usr/lib64/qt5/bin/uic"
+		export MOC="/usr/lib64/qt5/bin/moc"
 	fi
 
 	eautoreconf
