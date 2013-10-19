@@ -113,7 +113,8 @@ RDEPEND="
 		postproc? ( || ( media-video/ffmpeg:0 media-libs/libpostproc ) )
 		projectm? ( media-libs/libprojectm media-fonts/dejavu )
 		pulseaudio? ( >=media-sound/pulseaudio-0.9.22 )
-		qt4? ( dev-qt/qtgui:4 dev-qt/qtcore:4 )
+		qt4? (	dev-qt/qtgui:4 dev-qt/qtcore:4
+				!dev-qt/qtgui:5 !dev-qt/qtcore:5 )
 		qt5? ( dev-qt/qtgui:5 dev-qt/qtcore:5 )
 		samba? ( >=net-fs/samba-3.4.6[smbclient] )
 		schroedinger? ( >=media-libs/schroedinger-1.0.10 )
@@ -167,7 +168,7 @@ REQUIRED_USE="
 	qt4? ( X )
 	qt5? ( !qt4 )
 	sdl? ( X )
-	skins? ( truetype || ( qt4 qt5 ) X )
+	skins? ( truetype X || ( qt4 qt5 ) )
 	vaapi? ( avcodec X )
 	vlm? ( encode )
 	xv? ( xcb )
