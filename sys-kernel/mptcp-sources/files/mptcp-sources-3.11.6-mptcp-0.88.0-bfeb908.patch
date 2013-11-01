@@ -11957,10 +11957,10 @@ index 0000000..c532c53
 +}
 diff --git a/net/mptcp/mptcp_ipv4.c b/net/mptcp/mptcp_ipv4.c
 new file mode 100644
-index 0000000..8007e49
+index 0000000..6e24483
 --- /dev/null
 +++ b/net/mptcp/mptcp_ipv4.c
-@@ -0,0 +1,587 @@
+@@ -0,0 +1,589 @@
 +/*
 + *	MPTCP implementation - IPv4-specific functions
 + *
@@ -12526,7 +12526,9 @@ index 0000000..8007e49
 +	}
 +
 +	ops->slab = kmem_cache_create(ops->slab_name, ops->obj_size, 0,
-+				      SLAB_HWCACHE_ALIGN, NULL);
++				      SLAB_DESTROY_BY_RCU|SLAB_HWCACHE_ALIGN,
++				      NULL);
++
 +	if (ops->slab == NULL) {
 +		ret =  -ENOMEM;
 +		goto err_reqsk_create;
@@ -12550,10 +12552,10 @@ index 0000000..8007e49
 +
 diff --git a/net/mptcp/mptcp_ipv6.c b/net/mptcp/mptcp_ipv6.c
 new file mode 100644
-index 0000000..f78c554
+index 0000000..3d85554
 --- /dev/null
 +++ b/net/mptcp/mptcp_ipv6.c
-@@ -0,0 +1,809 @@
+@@ -0,0 +1,811 @@
 +/*
 + *	MPTCP implementation - IPv6-specific functions
 + *
@@ -13343,7 +13345,9 @@ index 0000000..f78c554
 +	}
 +
 +	ops->slab = kmem_cache_create(ops->slab_name, ops->obj_size, 0,
-+				      SLAB_HWCACHE_ALIGN, NULL);
++				      SLAB_DESTROY_BY_RCU|SLAB_HWCACHE_ALIGN,
++				      NULL);
++
 +	if (ops->slab == NULL) {
 +		ret =  -ENOMEM;
 +		goto err_reqsk_create;
