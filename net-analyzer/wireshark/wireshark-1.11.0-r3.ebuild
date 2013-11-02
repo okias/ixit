@@ -1,6 +1,6 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/net-analyzer/wireshark/wireshark-1.11.0.ebuild,v 1.1 2013/10/16 03:16:50 jer Exp $
+# $Header: /var/cvsroot/gentoo-x86/net-analyzer/wireshark/wireshark-1.11.0-r2.ebuild,v 1.1 2013/10/27 15:15:58 jer Exp $
 
 EAPI=5
 inherit autotools eutils fcaps user
@@ -14,8 +14,8 @@ LICENSE="GPL-2"
 SLOT="0/${PV}"
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~sparc ~x86 ~x86-fbsd"
 IUSE="
-	adns +caps crypt doc doc-pdf geoip gtk2 gtk3 ipv6 kerberos libadns lua
-	+netlink +pcap portaudio qt4 +qt5 selinux smi ssl zlib
+	adns +caps crypt doc doc-pdf geoip gtk2 +gtk3 ipv6 kerberos libadns lua
+	+netlink +pcap portaudio +qt4 qt5 selinux smi ssl zlib
 "
 REQUIRED_USE="
 	?? ( gtk2 gtk3 )
@@ -54,13 +54,13 @@ RDEPEND="
 		x11-misc/xdg-utils
 		!dev-qt/qtcore:5
 		!dev-qt/qtgui:5
-		)
+	)
 	qt5? (
 		dev-qt/qtcore:5
 		dev-qt/qtgui:5
+		dev-qt/qtprintsupport:5
 		x11-misc/xdg-utils
-		)
-
+	)
 	selinux? ( sec-policy/selinux-wireshark )
 	smi? ( net-libs/libsmi )
 	ssl? ( net-libs/gnutls )
@@ -94,7 +94,10 @@ pkg_setup() {
 
 src_prepare() {
 	epatch \
-		"${FILESDIR}"/${PN}-1.6.13-ldflags.patch
+		"${FILESDIR}"/${PN}-1.6.13-ldflags.patch \
+		"${FILESDIR}"/${P}-oldlibs.patch
+
+	epatch_user
 
 	if use qt5; then
 		export UIC="/usr/lib64/qt5/bin/uic"
@@ -135,7 +138,7 @@ src_configure() {
 	fi
 
 	# Enable wireshark binary with any supported GUI toolkit (bug #473188)
-	if use gtk2 || use gtk3 || use qt4 || use qt5 ; then
+	if use gtk2 || use gtk3 || use qt4 || use qt5; then
 		myconf+=( "--enable-wireshark" )
 	else
 		myconf+=( "--disable-wireshark" )
@@ -212,7 +215,15 @@ src_install() {
 				newins image/${c}${d}-app-wireshark.png wireshark.png
 			done
 		done
+	fi
+
+	if use gtk2 || use gtk3; then
 		domenu wireshark.desktop
+	fi
+
+	if use qt4 || use qt5; then
+		sed -e '/Exec=/s|wireshark|&-qt|g' wireshark.desktop > wireshark-qt.desktop || die
+		domenu wireshark-qt.desktop
 	fi
 
 	use pcap && chmod o-x "${ED}"/usr/bin/dumpcap #357237

@@ -11,7 +11,7 @@ detect_arch
 MPTCP_VER="0.88.0-bfeb908-experimental312"
 
 KEYWORDS=""
-HOMEPAGE=""
+HOMEPAGE="http://multipath-tcp.org"
 IUSE=""
 
 DESCRIPTION="Full sources without the Gentoo patchset for the ${KV_MAJOR}.${KV_MINOR} kernel tree with MPTCP"

@@ -14,7 +14,7 @@ detect_arch
 MPTCP_VER="0.88.0-bfeb908"
 
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86"
-HOMEPAGE="http://dev.gentoo.org/~mpagano/genpatches"
+HOMEPAGE="http://dev.gentoo.org/~mpagano/genpatches http://multipath-tcp.org"
 IUSE="deblob experimental"
 
 DESCRIPTION="Full sources including the Gentoo patchset for the ${KV_MAJOR}.${KV_MINOR} kernel tree"
