@@ -1,19 +1,18 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 2013 iXit Group
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
 
 EAPI="5"
 ETYPE="sources"
 K_WANT_GENPATCHES="base extras experimental"
-K_GENPATCHES_VER="9"
+K_GENPATCHES_VER="1"
 K_DEBLOB_AVAILABLE="1"
 inherit kernel-2
 detect_version
 detect_arch
 
-MPTCP_VER="0.88.0-bfeb908"
+MPTCP_VER="0.88.0-bfeb908-experimental312"
 
-KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86"
+KEYWORDS=""
 HOMEPAGE="http://dev.gentoo.org/~mpagano/genpatches http://multipath-tcp.org"
 IUSE="deblob experimental"
 
@@ -21,7 +20,7 @@ DESCRIPTION="Full sources including the Gentoo patchset for the ${KV_MAJOR}.${KV
 SRC_URI="${KERNEL_URI} ${GENPATCHES_URI} ${ARCH_URI}"
 
 src_prepare() {
-	epatch "${FILESDIR}/${PN}-3.11.6-mptcp-${MPTCP_VER}.patch"
+	epatch "${FILESDIR}/${PN}-3.12.0-mptcp-${MPTCP_VER}.patch"
 }
 
 pkg_postinst() {
