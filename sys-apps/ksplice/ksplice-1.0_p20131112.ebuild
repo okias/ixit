@@ -4,9 +4,8 @@
 EAPI=5
 
 REV="d2f0a159f4528cf932b7a276e38c9cfddc1281c4"
-if [[ ${PV} == "9999*" ]]; then
+if [[ ${PV} == 9999* ]]; then
 	EGIT_REPO_URI="https://github.com/jirislaby/${PN}.git"
-	KEYWORDS=""
 	inherit git-r3
 else
 	SRC_URI="https://github.com/jirislaby/${PN}/archive/${REV}.zip -> ${P}.zip"
