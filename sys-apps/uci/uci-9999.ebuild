@@ -8,7 +8,7 @@ inherit git-r3 cmake-utils
 DESCRIPTION="A general purpose library for the OpenWRT project."
 HOMEPAGE="http://wiki.openwrt.org/"
 EGIT_REPO_URI="git://nbd.name/${PN}.git"
-LICENSE="GPLv2"
+LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS=""
 IUSE=""

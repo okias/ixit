@@ -7,10 +7,10 @@
 		<name>David Heidelberger</name>
 	</maintainer>
 	<longdescription lang="en">
-KSplice proviede mechanism, to patch running kernel without need of kernel reload or reboot.
+Program for firmware flashing Linux based Nokia devices such as N900.
 	</longdescription>
 	<longdescription lang="cs">
-KSplice nabízí mechanismus na záplatování linuxového jádra za jeho běhu, bez přerušení činnosti.
+Program pro nahrání firmwaru do Nokii založených na Linuxu (jako např. Nokia N900).
 	</longdescription>
 </pkgmetadata>
 

@@ -8,7 +8,7 @@ HOMEPAGE="http://nopcode.org/0xFFFF/"
 REV="c6ee6a8e682078e1ab0aac9d57f2ab869dada0e1"
 SRC_URI="https://gitorious.org/${PN}/${PN}/archive/${REV}.tar.gz -> ${P}.tar.gz"
 
-LICENSE="GPL3"
+LICENSE="GPL-3"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE=""
