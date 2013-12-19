@@ -4,8 +4,11 @@
   <herd>kde</herd>
   <use>
     <flag name="activities">Enable support for KDE KActivities</flag>
+    <flag name="aurorae">Build support for custom themes based on Aurorae SVG framework.</flag>
     <flag name="gles">Enable support for GLES.</flag>
     <flag name="opengl1">Enable support for old OpenGL 1 (not needed on modern computers).</flag>
+    <flag name="oldthemes">Build old style B2 and Laptop theme.</flag>
+    <flag name="oxygen">Build default KWin Theme called Oxygen.</flag>
     <flag name="xrender">Enable support for XRender.</flag>
     <flag name="scripting">Enable support for KWin Scripting.</flag>
   </use>

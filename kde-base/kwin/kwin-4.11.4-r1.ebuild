@@ -16,7 +16,7 @@ inherit flag-o-matic kde4-meta
 DESCRIPTION="KDE window manager"
 HOMEPAGE+=" http://userbase.kde.org/KWin"
 KEYWORDS=" ~amd64 ~arm ~ppc ~ppc64 ~x86 ~amd64-linux ~x86-linux"
-IUSE="+activities debug gles opengl +opengl1 +xrender +scripting wayland"
+IUSE="+activities +aurorae debug gles opengl +opengl1 +oldthemes +oxygen +xrender +scripting wayland"
 
 COMMONDEPEND="
 	activities? ( $(add_kdebase_dep kactivities) )
@@ -66,6 +66,16 @@ REQUIRED_USE="!opengl? ( gles )
 		wayland? ( gles )
 		opengl1? ( opengl !gles )"
 
+src_prepare() {
+		if ! use aurorae; then
+			sed -i '/aurorae/d' "${WORKDIR}/${P}/kwin/clients/CMakeLists.txt"
+		fi
+		if ! use oldthemes; then
+			sed -i '/b2\|laptop/d' "${WORKDIR}/${P}/kwin/clients/CMakeLists.txt"
+		fi
+		kde4-meta_src_prepare
+}
+
 src_configure() {
 	# FIXME Remove when activity API moved away from libkworkspace
 	append-cppflags "-I${EPREFIX}/usr/include/kworkspace"
@@ -74,6 +84,7 @@ src_configure() {
 		$(cmake-utils_use activities KWIN_BUILD_ACTIVITIES)
 		$(cmake-utils_use_with gles OpenGLES)
 		$(cmake-utils_use gles KWIN_BUILD_WITH_OPENGLES)
+		$(cmake-utils_use oxygen KWIN_BUILD_OXYGEN)
 		$(cmake-utils_use_with opengl OpenGL)
 		$(cmake-utils_use opengl1 KWIN_BUILD_OPENGL_1_COMPOSITING)
 		$(cmake-utils_use scripting KWIN_BUILD_SCRIPTING)
@@ -83,4 +94,13 @@ src_configure() {
 	)
 
 	kde4-meta_src_configure
+}
+
+pkg_postinst() {
+	if ! ( use aurorae | use oldthemes | use oxygen ); then
+		ewarn "You didn't choose any window decoration. You should install own, otherwise kwin will not work."
+		ewarn ""
+		ewarn "You may use oxygen-transparent, bespin, chromi or activate at least one following kwin USE:"
+		ewarn "aurorae, oldthemes or oxygen"
+	fi
 }
