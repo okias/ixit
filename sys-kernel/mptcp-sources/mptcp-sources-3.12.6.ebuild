@@ -4,7 +4,7 @@
 EAPI="5"
 ETYPE="sources"
 K_WANT_GENPATCHES="base extras experimental"
-K_GENPATCHES_VER="6"
+K_GENPATCHES_VER="7"
 K_DEBLOB_AVAILABLE="1"
 inherit kernel-2
 detect_version
@@ -21,8 +21,6 @@ SRC_URI="${KERNEL_URI} ${GENPATCHES_URI} ${ARCH_URI}"
 
 src_prepare() {
 	epatch "${FILESDIR}/${PN}-3.12-mptcp-${MPTCP_VER}.patch"
-	# this patch allow use more -mtune and -mtune=native
-	epatch "${FILESDIR}/kernel-312-gcc48-1.patch"
 }
 
 pkg_postinst() {
