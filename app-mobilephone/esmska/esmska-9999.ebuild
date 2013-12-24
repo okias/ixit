@@ -6,7 +6,7 @@ EAPI=5
 
 if [[ ${PV} = *9999* ]]; then
 	EGIT_REPO_URI="git://github.com/kparal/${PN}.git"
-	GIT_ECLASS="git-2"
+	GIT_ECLASS="git-r3"
 else
 	KEYWORDS="~amd64 ~x86"
 	SRC_URI="https://github.com/kparal/esmska/archive/v${PV}.tar.gz -> ${P}.tar.gz"
