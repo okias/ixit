@@ -10,7 +10,7 @@ inherit kernel-2
 detect_version
 detect_arch
 
-MPTCP_VER="trunk-f296562"
+MPTCP_VER="trunk-5f5149f"
 
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86"
 HOMEPAGE="http://dev.gentoo.org/~mpagano/genpatches http://multipath-tcp.org"
