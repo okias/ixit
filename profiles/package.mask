@@ -1,2 +1,5 @@
 # not tested enough, waiting for Gentoo upstream approval, be carefull when testing
+# bug #496218
 =sys-devel/gettext-0.18.3.1-r2
+# bug #496220
+=virtual/libintl-0-r1
