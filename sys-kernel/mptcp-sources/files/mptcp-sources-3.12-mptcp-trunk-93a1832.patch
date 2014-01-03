@@ -2843,7 +2843,7 @@ index 6e5617b..d1333dd 100644
  		reqsk_fastopen_remove(sk, req, false);
  
 diff --git a/net/ipv4/tcp_input.c b/net/ipv4/tcp_input.c
-index a16b01b..7a0d05c 100644
+index a16b01b..6986d97 100644
 --- a/net/ipv4/tcp_input.c
 +++ b/net/ipv4/tcp_input.c
 @@ -74,6 +74,9 @@
@@ -3474,17 +3474,7 @@ index a16b01b..7a0d05c 100644
  		break;
  
  	case TCP_FIN_WAIT1: {
-@@ -5757,6 +5904,9 @@ int tcp_rcv_state_process(struct sock *sk, struct sk_buff *skb,
- 			/* Wake up lingering close() */
- 			sk->sk_state_change(sk);
- 			break;
-+		case TCP_CLOSE:
-+			if (tp->mp_killed)
-+				goto discard;
- 		}
- 
- 		if (tp->linger2 < 0 ||
-@@ -5770,7 +5920,8 @@ int tcp_rcv_state_process(struct sock *sk, struct sk_buff *skb,
+@@ -5770,7 +5917,8 @@ int tcp_rcv_state_process(struct sock *sk, struct sk_buff *skb,
  		tmo = tcp_fin_time(sk);
  		if (tmo > TCP_TIMEWAIT_LEN) {
  			inet_csk_reset_keepalive_timer(sk, tmo - TCP_TIMEWAIT_LEN);
@@ -3494,6 +3484,16 @@ index a16b01b..7a0d05c 100644
  			/* Bad case. We could lose such FIN otherwise.
  			 * It is not a big problem, but it looks confusing
  			 * and not so rare event. We still can lose it now,
+@@ -5799,6 +5947,9 @@ int tcp_rcv_state_process(struct sock *sk, struct sk_buff *skb,
+ 			goto discard;
+ 		}
+ 		break;
++	case TCP_CLOSE:
++		if (tp->mp_killed)
++			goto discard;
+ 	}
+ 
+ 	/* step 6: check the URG bit */
 @@ -5819,7 +5970,11 @@ int tcp_rcv_state_process(struct sock *sk, struct sk_buff *skb,
  		 */
  		if (sk->sk_shutdown & RCV_SHUTDOWN) {
