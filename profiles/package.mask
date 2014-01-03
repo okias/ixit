@@ -1,0 +1,2 @@
+# not tested enough, waiting for Gentoo upstream approval, be carefull when testing
+=sys-devel/gettext-0.18.3.1-r2
