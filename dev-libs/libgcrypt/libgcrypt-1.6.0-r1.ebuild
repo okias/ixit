@@ -28,7 +28,7 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-multilib-syspath.patch
 )
 
-src_configure() {
+multilib_src_configure() {
 	if [[ ${CHOST} == *-solaris* ]] ; then
 		# ASM code uses GNU ELF syntax, divide in particular, we need to
 		# allow this via ASFLAGS, since we don't have a flag-o-matic
