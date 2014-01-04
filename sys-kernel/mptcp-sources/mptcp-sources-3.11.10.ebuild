@@ -1,4 +1,4 @@
-# Copyright 2013 iXit Group
+# Copyright 2013-2014 iXit Group
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
@@ -11,16 +11,18 @@ detect_version
 detect_arch
 
 MPTCP_VER="0.88.3-ef285b5"
+MPTCP_FILE="${PN}-3.11.9-mptcp-${MPTCP_VER}.patch"
 
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86"
 HOMEPAGE="http://dev.gentoo.org/~mpagano/genpatches http://multipath-tcp.org"
 IUSE="deblob experimental"
 
 DESCRIPTION="Full sources including the Gentoo patchset for the ${KV_MAJOR}.${KV_MINOR} kernel tree"
-SRC_URI="${KERNEL_URI} ${GENPATCHES_URI} ${ARCH_URI}"
+SRC_URI="${KERNEL_URI} ${GENPATCHES_URI} ${ARCH_URI}
+http://download.ixit.cz/kernel/${MPTCP_FILE}"
 
 src_prepare() {
-	epatch "${FILESDIR}/${PN}-3.11.9-mptcp-${MPTCP_VER}.patch"
+	epatch "${DISTDIR}/${MPTCP_FILE}"
 }
 
 pkg_postinst() {
