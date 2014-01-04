@@ -28,7 +28,7 @@ PATCHES=(
 	"${FILESDIR}"/${PN}-multilib-syspath.patch
 )
 
-multilib_src_configure() {
+src_configure() {
 	if [[ ${CHOST} == *-solaris* ]] ; then
 		# ASM code uses GNU ELF syntax, divide in particular, we need to
 		# allow this via ASFLAGS, since we don't have a flag-o-matic
@@ -51,5 +51,13 @@ multilib_src_configure() {
 		$([[ ${CHOST} == *86*-darwin* ]] && echo "--disable-asm")
 		$([[ ${CHOST} == sparcv9-*-solaris* ]] && echo "--disable-asm")
 	)
+
 	autotools-multilib_src_configure
+}
+
+multilib_src_install() {
+	emake DESTDIR="${D}" "${_at_args[@]}" install
+	if ! multilib_build_binaries; then
+		newbin "${D}"/usr/bin/libgcrypt-config "${ABI}"-libgcrypt-config || die
+	fi
 }
