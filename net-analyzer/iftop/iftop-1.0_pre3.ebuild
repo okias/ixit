@@ -21,8 +21,7 @@ DEPEND="
 S="${WORKDIR}"/${P/_/}
 
 src_prepare() {
-	epatch "${FILESDIR}"/${P}-tinfo.patch
-	use colors && epatch "${FILESDIR}"/${PN}-colors.patch
+	use colors && epatch "${FILESDIR}"/${P}-colors.patch
 	sed -i 's/AM_CONFIG_HEADER/AC_CONFIG_HEADERS/g' configure.in || die
 	eautoreconf
 }
