@@ -1,4 +1,4 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=5
@@ -11,7 +11,7 @@ HOMEPAGE="http://www.ex-parrot.com/~pdw/iftop/"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS="~alpha amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~sparc ~x86 ~x86-fbsd ~amd64-linux ~x86-linux ~ppc-macos ~x86-macos"
+KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~sparc ~x86 ~x86-fbsd ~amd64-linux ~x86-linux ~ppc-macos ~x86-macos"
 IUSE="+colors"
 
 DEPEND="
@@ -21,8 +21,14 @@ DEPEND="
 S="${WORKDIR}"/${P/_/}
 
 src_prepare() {
+	epatch "${FILESDIR}"/${PN}-1.0_pre3-tinfo.patch
 	use colors && epatch "${FILESDIR}"/${P}-colors.patch
 	sed -i 's/AM_CONFIG_HEADER/AC_CONFIG_HEADERS/g' configure.in || die
+
+	# bug 490168
+	cat "${FILESDIR}"/ax_pthread.m4 >> "${S}"/acinclude.m4 || die
+	epatch "${FILESDIR}"/${PN}-1.0_pre2-pthread.patch
+
 	eautoreconf
 }
 
