@@ -10,7 +10,7 @@ inherit kernel-2
 detect_version
 detect_arch
 
-MPTCP_VER="trunk-93a1832"
+MPTCP_VER="trunk-7688635"
 MPTCP_FILE="${PN}-3.12-mptcp-${MPTCP_VER}.patch"
 KDBUS_VER="26798ce"
 KDBUS_FILE="${PN}-3.12-kdbus-${KDBUS_VER}.patch"
