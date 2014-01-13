@@ -39,24 +39,24 @@ RDEPEND="${RDEPEND}
 RC_VER="4.0.6-r1"
 INITD_VER="4.0.6-r1"
 
-#src_prepare() {
+src_prepare() {
 	# Bug #48838. Patch to enable/disable FAM support.
 	# 20 Aug 2004 langthang@gentoo.org
 	# This patch should fix bug #51540. fam USE flag is not needed for shared folder support.
-	#epatch "${FILESDIR}"/${PN}-4.14-disable-fam-configure.ac.patch
+	epatch "${FILESDIR}"/${PN}-4.15-disable-fam-configure.ac.patch
 
 	# Kill unneeded call to AC_PROG_SYSCONFTOOL (bug #168206).
-	#epatch "${FILESDIR}"/${PN}-4.14-aclocal-fix.patch
+	epatch "${FILESDIR}"/${PN}-4.15-aclocal-fix.patch
 
 	# These patches should fix problems detecting BerkeleyDB.
 	# We now can compile with db4 support.
-	#if use berkdb ; then
-	#	epatch "${FILESDIR}"/${PN}-4.14-db4-bdbobj_configure.ac.patch
-	#	epatch "${FILESDIR}"/${PN}-4.14-db4-configure.ac.patch
-	#fi
+	if use berkdb ; then
+		epatch "${FILESDIR}"/${PN}-4.15-db4-bdbobj_configure.ac.patch
+		epatch "${FILESDIR}"/${PN}-4.15-db4-configure.ac.patch
+	fi
 
-	#eautoreconf
-#}
+	MAKEOPTS="-j1" eautoreconf # bug 389511#c13
+}
 
 src_configure() {
 	local myconf=""
