@@ -29,8 +29,6 @@ REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 DOCS=( ChangeLog )
 
 src_prepare() {
-	epatch "${FILESDIR}"/${PN}-3.2.22-python.patch
-
 	eautoreconf
 }
 
