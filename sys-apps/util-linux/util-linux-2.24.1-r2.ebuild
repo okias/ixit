@@ -28,7 +28,7 @@ IUSE="bash-completion caps +cramfs cytune fdformat ncurses nls pam python selinu
 
 RDEPEND="!sys-process/schedutils
 	!sys-apps/setarch
-	!<sys-apps/sysvinit-2.88-r6
+	!<sys-apps/sysvinit-2.88-r7
 	!sys-block/eject
 	!<sys-libs/e2fsprogs-libs-1.41.8
 	!<sys-fs/e2fsprogs-1.41.8
