@@ -14,6 +14,7 @@ Think of Wine as a compatibility layer for running Windows programs. Wine does n
 	<flag name='gecko'>Add support for the Gecko engine when using iexplore</flag>
 	<flag name='mono'>Add support for .NET using Wine's Mono add-on</flag>
 	<flag name='netapi'>Use libnetapi from <pkg>net-fs/samba</pkg> to support Windows networks in netapi32.dll</flag>
+	<flag name='nine'>Enable Gallium Nine state tracker for D3D9 apps</flag>
 	<flag name='opencl'>Enable OpenCL support</flag>
 	<flag name='osmesa'>Add support for OpenGL in bitmaps using libOSMesa</flag>
 	<flag name='perl'>Install helpers written in perl (winedump/winemaker)</flag>
