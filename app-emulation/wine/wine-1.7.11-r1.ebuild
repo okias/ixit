@@ -146,7 +146,6 @@ COMMON_DEPEND="
 				app-emulation/emul-linux-x86-soundlibs[alsa,development]
 				media-libs/alsa-lib[abi_x86_32]
 			) )
-			cups? ( app-emulation/emul-linux-x86-baselibs )
 			opencl? ( virtual/opencl[abi_x86_32] )
 			opengl? ( || (
 				app-emulation/emul-linux-x86-opengl[development]
@@ -172,7 +171,6 @@ COMMON_DEPEND="
 				app-emulation/emul-linux-x86-soundlibs[development]
 				>=media-sound/mpg123-1.5.0[abi_x86_32]
 			) )
-			nls? ( app-emulation/emul-linux-x86-baselibs[development] )
 			odbc? ( app-emulation/emul-linux-x86-db[development] )
 			osmesa? ( || (
 				>=app-emulation/emul-linux-x86-opengl-20121028[development]
@@ -182,11 +180,8 @@ COMMON_DEPEND="
 				app-emulation/emul-linux-x86-soundlibs[development]
 				>=media-sound/pulseaudio-4.0-r1[abi_x86_32]
 			) )
-			xml? ( >=app-emulation/emul-linux-x86-baselibs-20131008[development] )
 			scanner? ( app-emulation/emul-linux-x86-medialibs[development] )
-			ssl? ( app-emulation/emul-linux-x86-baselibs[development] )
 			png? ( || (
-				app-emulation/emul-linux-x86-baselibs[development]
 				media-libs/libpng:0[abi_x86_32]
 			) )
 			v4l? ( || (
