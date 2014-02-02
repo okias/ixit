@@ -182,6 +182,7 @@ COMMON_DEPEND="
 			) )
 			scanner? ( app-emulation/emul-linux-x86-medialibs[development] )
 			png? ( || (
+				app-emulation/emul-linux-x86-baselibs[development]
 				media-libs/libpng:0[abi_x86_32]
 			) )
 			v4l? ( || (
