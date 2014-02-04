@@ -4,7 +4,7 @@
 EAPI="5"
 ETYPE="sources"
 K_WANT_GENPATCHES="base extras experimental"
-K_GENPATCHES_VER="9"
+K_GENPATCHES_VER="10"
 K_DEBLOB_AVAILABLE="1"
 inherit kernel-2
 detect_version
@@ -12,7 +12,7 @@ detect_arch
 
 MPTCP_VER="trunk-fb5859f"
 MPTCP_FILE="${PN}-3.12-mptcp-${MPTCP_VER}.patch"
-KDBUS_VER="761aff7"
+KDBUS_VER="c28061e"
 KDBUS_FILE="${PN}-3.12-kdbus-${KDBUS_VER}.patch"
 
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86"
