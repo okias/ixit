@@ -2,24 +2,20 @@ The version taken from GnuPG 1.4 assumes any cross-compiled package have
 prefixed underscores, which is not the case; by using libtool's own macro,
 we can avoid the whole issue.
 
-diff --git a/configure.ac b/configure.ac
-index ab160c3..6df49bf 100644
---- a/configure.ac
-+++ b/configure.ac
-@@ -886,7 +886,7 @@ fi
- #
- # Setup assembler stuff.
+--- libgcrypt-1.6.1/configure.ac
++++ libgcrypt-1.6.1/configure.ac
+@@ -1022,7 +1022,7 @@
+ # Check whether underscores in symbols are required.  This needs to be
+ # done before setting up the assembler stuff.
  #
 -GNUPG_SYS_SYMBOL_UNDERSCORE()
 +LT_SYS_SYMBOL_USCORE
- AC_ARG_ENABLE(mpi-path,
-               AC_HELP_STRING([--enable-mpi-path=EXTRA_PATH],
- 	      [prepend EXTRA_PATH to list of CPU specific optimizations]),
-diff --git a/mpi/config.links b/mpi/config.links
-index 7e910ee..9696828 100644
---- a/mpi/config.links
-+++ b/mpi/config.links
-@@ -291,7 +291,7 @@ fi
+ 
+ 
+ #################################
+--- libgcrypt-1.6.1/mpi/config.links
++++ libgcrypt-1.6.1/mpi/config.links
+@@ -362,7 +362,7 @@
  
  # Make sysdep.h
  echo '/* created by config.links - do not edit */' >./mpi/sysdep.h
@@ -28,6 +24,3 @@ index 7e910ee..9696828 100644
      cat <<EOF >>./mpi/sysdep.h
  #if __STDC__
  #define C_SYMBOL_NAME(name) _##name
--- 
-1.7.6.1
-

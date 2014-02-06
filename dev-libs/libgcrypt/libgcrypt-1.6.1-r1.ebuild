@@ -4,7 +4,6 @@
 
 EAPI=5
 AUTOTOOLS_AUTORECONF=1
-WANT_AUTOMAKE=1.12
 
 inherit autotools-multilib flag-o-matic
 
@@ -15,17 +14,22 @@ SRC_URI="mirror://gnupg/libgcrypt/${P}.tar.bz2
 
 LICENSE="LGPL-2.1 MIT"
 SLOT="0/20" # subslot = soname major version
-KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~m68k ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~ppc-aix ~amd64-fbsd ~sparc-fbsd ~x86-fbsd ~x64-freebsd ~x86-freebsd ~amd64-linux ~arm-linux ~x86-linux ~ppc-macos ~x64-macos ~x86-macos ~sparc-solaris ~sparc64-solaris ~x64-solaris ~x86-solaris"
+KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~m68k ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~ppc-aix ~amd64-fbsd ~sparc-fbsd ~x86-fbsd ~x64-freebsd ~x86-freebsd ~amd64-linux ~arm-linux ~x86-linux ~ppc-macos ~x64-macos ~x86-macos ~m68k-mint ~sparc-solaris ~sparc64-solaris ~x64-solaris ~x86-solaris"
 IUSE="static-libs"
 
-RDEPEND=">=dev-libs/libgpg-error-1.12-r1[${MULTILIB_USEDEP}]"
+RDEPEND=">=dev-libs/libgpg-error-1.12-r1[${MULTILIB_USEDEP}]
+	abi_x86_32? (
+		!app-emulation/emul-linux-x86-baselibs[-abi_x86_32(-)]
+		!<=app-emulation/emul-linux-x86-baselibs-20131008-r8
+	)"
 DEPEND="${RDEPEND}"
 
 DOCS=( AUTHORS ChangeLog NEWS README THANKS TODO )
 
 PATCHES=(
-	"${FILESDIR}"/${PN}-1.5.0-uscore.patch
+	"${FILESDIR}"/${P}-uscore.patch
 	"${FILESDIR}"/${PN}-multilib-syspath.patch
+	"${FILESDIR}"/${PN}-1.6.0-serial-tests.patch
 )
 
 src_configure() {
@@ -56,8 +60,10 @@ src_configure() {
 }
 
 multilib_src_install() {
-	emake DESTDIR="${D}" "${_at_args[@]}" install
-	if ! multilib_build_binaries; then
-		newbin "${D}"/usr/bin/libgcrypt-config "${ABI}"-libgcrypt-config || die
+	emake DESTDIR="${D}" install
+
+	mv "${ED}"/usr/bin/{,"${CHOST}"-}libgcrypt-config || die
+	if multilib_build_binaries; then
+		dosym "${CHOST}"-libgcrypt-config /usr/bin/libgcrypt-config
 	fi
 }
