@@ -123,7 +123,7 @@ COMMON_DEPEND="
 			openal? ( || (
 				app-emulation/emul-linux-x86-sdl[development]
 				media-libs/openal[abi_x86_32]
-			)
+			) )
 			nine? ( media-libs/mesa[abi_x86_32] )
 			gstreamer? (
 				app-emulation/emul-linux-x86-gstplugins
