@@ -21,13 +21,11 @@ IUSE="crypt debug python static-libs"
 REQUIRED_USE="python? ( ${PYTHON_REQUIRED_USE} )"
 
 RDEPEND=">=dev-libs/libxml2-2.8.0:2[${MULTILIB_USEDEP}]
-	crypt?  ( >=dev-libs/libgcrypt-1.1.42:=[${MULTILIB_USEDEP}] )
+	crypt?  ( >=dev-libs/libgcrypt-1.6.1-r1:=[${MULTILIB_USEDEP}] )
 	python? (
 		${PYTHON_DEPS}
 		dev-libs/libxml2:2[python,${PYTHON_USEDEP}] )"
 DEPEND="${RDEPEND}"
-
-DOCS=( FEATURES )
 
 src_prepare() {
 	# https://bugzilla.gnome.org/show_bug.cgi?id=684621
@@ -47,26 +45,25 @@ src_prepare() {
 }
 
 multilib_src_configure() {
-	# libgcrypt is missing pkg-config file, so fixing cross-compile
-	# here. see bug 267503.
-	tc-is-cross-compiler && \
-		export LIBGCRYPT_CONFIG="${SYSROOT}"/usr/bin/libgcrypt-config
+	local myconf
 
 	if multilib_build_binaries; then
-		$myconf = "$(use_with python)"
+		myconf="$(use_with python)"
+		# libgcrypt is missing pkg-config file, so fixing cross-compile
+		# here. see bug 267503.
+		export LIBGCRYPT_CONFIG="${SYSROOT}"/usr/bin/libgcrypt-config
 	else
-		$myconf = "--disable-python"
-		export LIBGCRYPT_CONFIG="${SYSROOT}/usr/bin/${ABI}-libgcrypt-config"
+		myconf="--without-python"
+		export LIBGCRYPT_CONFIG="${SYSROOT}/usr/bin/${CHOST}-libgcrypt-config"
 	fi
 
-	econf \
+	econf ${myconf} \
 		$(use_enable static-libs static) \
 		--with-html-dir="${EPREFIX}"/usr/share/doc/${PF} \
 		--with-html-subdir=html \
 		$(use_with crypt crypto) \
 		$(use_with debug) \
-		$(use_with debug mem-debug) \
-		$myconf
+		$(use_with debug mem-debug)
 }
 
 multilib_src_compile() {
@@ -93,6 +90,8 @@ multilib_src_install() {
 }
 
 multilib_src_install_all() {
+	dodoc FEATURES
+
 	prune_libtool_files --modules
 }
 
