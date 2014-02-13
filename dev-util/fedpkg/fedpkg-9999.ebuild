@@ -29,5 +29,5 @@ RDEPEND="
 	dev-python/pycurl
 	dev-util/koji
 	dev-python/kitchen
-	dev-python/fedora
+	dev-python/python-fedora
 "
