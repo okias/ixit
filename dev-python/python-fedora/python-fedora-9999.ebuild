@@ -18,7 +18,7 @@ KEYWORDS=""
 IUSE=""
 
 COMMON_DEPEND="
-	dev-python/bugzilla
+	dev-python/python-bugzilla
 	dev-python/bunch
 	dev-python/cherrypy
 	dev-python/decorator
