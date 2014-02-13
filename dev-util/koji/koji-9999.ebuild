@@ -19,7 +19,7 @@ IUSE="minimal"
 
 COMMON_DEPEND="
 	app-arch/rpm
-	dev-python/krbV
+	dev-python/python-krbV
 "
 DEPEND="
 	${COMMON_DEPEND}
