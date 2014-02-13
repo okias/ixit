@@ -14,8 +14,9 @@ KEYWORDS=""
 IUSE=""
 
 src_prepare() {
-	default
 	sed -i 's/-Werror //' CMakeLists.txt
+	sed -i 's|\<json/json.h\>|json-c/json.h|' jshn.c blobmsg_json.h
+	echo 'INCLUDE_DIRECTORIES(/usr/include/libnl3)' >> CMakeLists.txt
 }
 
 src_configure() {
