@@ -21,3 +21,15 @@ DEPEND="
 RDEPEND="${DEPEND}"
 
 ESVN_REPO_URI="http://www.nlnetlabs.nl/svn/${PN}/trunk"
+
+src_prepare() {
+	default
+
+	mv contrib/01-dnssec-trigger-hook-new_nm 01-dnssec-trigger-hook.sh.in
+}
+
+src_install() {
+	default
+
+	install -d "${ED}/var/run/dnssec-trigger"
+}
