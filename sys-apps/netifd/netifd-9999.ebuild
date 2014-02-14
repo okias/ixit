@@ -31,3 +31,11 @@ src_configure() {
 
 	cmake-utils_src_configure
 }
+
+src_install() {
+	cmake-utils_src_install
+
+	install -d "${D}/etc/config"
+	touch "${D}/etc/config/network"
+	touch "${D}/etc/config/wireless"
+}
