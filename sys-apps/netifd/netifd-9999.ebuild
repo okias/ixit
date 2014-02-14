@@ -14,12 +14,13 @@ KEYWORDS=""
 IUSE=""
 
 DEPEND="
-	sys-apps/uci
+	dev-libs/libnl
 	sys-apps/ubus
+	sys-apps/uci
 "
 
 src_prepare() {
-	default
+	echo 'INCLUDE_DIRECTORIES(/usr/include/libnl3)' >> CMakeLists.txt
 	sed -i 's/-Werror //' CMakeLists.txt
 }
 
