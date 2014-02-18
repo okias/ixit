@@ -26,6 +26,7 @@ src_prepare() {
 	default
 
 	mv contrib/01-dnssec-trigger-hook-new_nm 01-dnssec-trigger-hook.sh.in
+	sed -i 's|/usr/sbin/pidof|/bin/pidof|' 01-dnssec-trigger-hook.sh.in
 }
 
 src_install() {
