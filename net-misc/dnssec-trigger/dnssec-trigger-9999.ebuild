@@ -4,7 +4,7 @@
 
 EAPI=4
 
-inherit subversion
+inherit eutils subversion
 
 DESCRIPTION="A tool to configure unbound with usable DNSSEC servers."
 HOMEPAGE="http://www.nlnetlabs.nl/projects/dnssec-trigger/"
@@ -32,5 +32,6 @@ src_prepare() {
 src_install() {
 	default
 
-	install -d "${ED}/var/run/dnssec-trigger"
+	dodir /var/run/dnssec-trigger
+	keepdir /var/run/dnssec-trigger
 }
