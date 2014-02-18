@@ -23,6 +23,7 @@ RDEPEND="
 	dev-util/fedpkg
 	dev-util/koji
 	dev-util/mock
+	dev-util/rpmdevtools
 	net-misc/curl
 	virtual/python-argparse
 "
