@@ -38,19 +38,22 @@ src_prepare() {
 src_compile() {
 	default
 
-	systemd2openrc fedora/dnssec-triggerd.service --pidfile /etc/dnssec-trigger.pid > dnssec-triggerd.openrc
-	systemd2openrc fedora/dnssec-triggerd-keygen > dnssec-triggerd.openrc
-	systemd2openrc dnssec-triggerd-resolvconf-handle > dnssec-triggerd.openrc
+	systemd2openrc fedora/dnssec-triggerd.service --pidfile /etc/dnssec-trigger.pid > dnssec-triggerd.openrc || die
+	systemd2openrc fedora/dnssec-triggerd-keygen.service > dnssec-triggerd-keygen.openrc || die
+	systemd2openrc fedora/dnssec-triggerd-resolvconf-handle.service > dnssec-triggerd-resolvconf-handle.openrc || die
 }
 
 src_install() {
 	default
 
 	dodir /var/run/dnssec-trigger
-	keepdir /var/run/dnssec-trigger
+	keepdir /var/run/dnssec-trigger || die
 
 	for name in dnssec-triggerd dnssec-triggerd-keygen dnssec-triggerd-resolvconf-handle; do
-		systemd_dounit fedora/${name}.service
-		newinitd ${name}.openrc ${name}
+		systemd_dounit fedora/${name}.service || die
+		newinitd ${name}.openrc ${name} || die
 	done
+
+	exeinto /usr/libexec
+	doexe fedora/dnssec-triggerd-resolvconf-handle.sh || die
 }
