@@ -15,7 +15,7 @@ MPTCP_FILE="${PN}-3.12-mptcp-${MPTCP_VER}.patch"
 KDBUS_VER="035eee6"
 KDBUS_FILE="${PN}-3.12-kdbus-${KDBUS_VER}.patch"
 
-KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86"
+KEYWORDS="~alpha amd64 ~arm ~hppa ~ia64 ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86"
 HOMEPAGE="http://ixit.cz http://dev.gentoo.org/~mpagano/genpatches http://multipath-tcp.org"
 IUSE="deblob experimental -kdbus +mptcp"
 
