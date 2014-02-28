@@ -27,20 +27,43 @@ RDEPEND="
 	${COMMON_DEPEND}
 	net-dns/unbound
 "
+IUSE="+networkmanager"
 
 src_prepare() {
 	default
 
-	mv contrib/01-dnssec-trigger-hook-new_nm 01-dnssec-trigger-hook.sh.in
-	sed -i 's|/usr/sbin/pidof|/bin/pidof|' 01-dnssec-trigger-hook.sh.in
+	epatch_user
+
+	# Move around files to the right places
+	if [ -e contrib/dnssec-triggerd.service -a -e contrib/dnssec-trigger-script ]; then
+		:
+	else
+		cp fedora/dnssec-triggerd{,-keygen,-resolvconf-handle}.service contrib/ || die
+		sed -i '/ExecStopPost/a ExecStopPost=rm -f /var/run/dnssec-trigger/*' contrib/dnssec-triggerd.service || die
+		sed -i 's|ExecStart=/sbin/restorecon |ExecStart=-/sbin/restorecon |' contrib/dnssec-triggerd-keygen.service || die
+		cp contrib/01-dnssec-trigger-hook-new_nm contrib/dnssec-trigger-script || die
+		sed -i 's|/usr/sbin/pidof|/bin/pidof|' contrib/dnssec-trigger-script || die
+		cp contrib/dnssec-trigger-script contrib/dnssec-trigger-hook || die
+		cp fedora/dnssec-triggerd-resolvconf-handle.sh contrib/ || die
+	fi
+
+	# Let the build system handle the NetworkManager hook
+	cp contrib/dnssec-trigger-hook 01-dnssec-trigger-hook.sh.in || die
+}
+
+src_configure() {
+	econf --with-keydir=/etc/dnssec-trigger
 }
 
 src_compile() {
 	default
 
-	systemd2openrc fedora/dnssec-triggerd.service --pidfile /etc/dnssec-trigger.pid > dnssec-triggerd.openrc || die
-	systemd2openrc fedora/dnssec-triggerd-keygen.service > dnssec-triggerd-keygen.openrc || die
-	systemd2openrc fedora/dnssec-triggerd-resolvconf-handle.service > dnssec-triggerd-resolvconf-handle.openrc || die
+	mkdir openrc || die
+	systemd2openrc contrib/dnssec-triggerd.service > openrc/dnssec-triggerd || die
+	systemd2openrc contrib/dnssec-triggerd-keygen.service > openrc/dnssec-triggerd-keygen || die
+	if [ -e contrib/dnssec-triggerd-resolvconf-handle.service ]; then
+		systemd2openrc contrib/dnssec-triggerd-resolvconf-handle.service > openrc/dnssec-triggerd-resolvconf-handle || die
+	fi
 }
 
 src_install() {
@@ -49,11 +72,24 @@ src_install() {
 	dodir /var/run/dnssec-trigger
 	keepdir /var/run/dnssec-trigger || die
 
-	for name in dnssec-triggerd dnssec-triggerd-keygen dnssec-triggerd-resolvconf-handle; do
-		systemd_dounit fedora/${name}.service || die
-		newinitd ${name}.openrc ${name} || die
+	# Install systemd units
+	for i in contrib/*.service ; do
+		systemd_dounit $i || die
 	done
 
-	exeinto /usr/libexec
-	doexe fedora/dnssec-triggerd-resolvconf-handle.sh || die
+	# Instal OpenRC initscripts
+	for i in openrc/*; do
+		doinitd $i || die
+	done
+
+	if use networkmanager; then
+		# Install the helper script
+		exeinto /usr/libexec
+		doexe contrib/dnssec-trigger-script
+		if [ -e contrib/dnssec-triggerd-resolvconf-handle.sh ]; then
+			doexe contrib/dnssec-triggerd-resolvconf-handle.sh || die
+		fi
+	else
+		rm -rf "${ED}/etc/NetworkManager"
+	fi
 }
