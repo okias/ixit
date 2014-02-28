@@ -56,6 +56,7 @@ RDEPEND="${COMMON_DEPEND}
 	consolekit? ( sys-auth/consolekit )
 "
 DEPEND="${COMMON_DEPEND}
+	dev-util/systemd2openrc
 	dev-util/gtk-doc
 	dev-util/gtk-doc-am
 	>=dev-util/intltool-0.40
@@ -99,32 +100,29 @@ src_configure() {
 		"$(systemd_with_unitdir)"
 }
 
+src_compile() {
+	default
+
+	mkdir openrc || die
+	systemd2openrc data/NetworkManager.service --nodeps --pidfile /etc/NetworkManager/NetworkManager.pid > openrc/NetworkManager || die
+	systemd2openrc data/NetworkManager-dispatcher.service > openrc/NetworkManager-dispatcher || die
+	systemd2openrc data/NetworkManager-wait-online.service --nodeps > openrc/NetworkManager-wait-online || die
+
+	echo -ne "\ndepend() {\n    need NetworkManager\n    provide net\n}\n" >> openrc/NetworkManager-wait-online
+}
+
 src_install() {
 	default
 
-	# Gentoo init script
-	newinitd "${FILESDIR}/init.d.NetworkManager" NetworkManager
-
-	# /var/run/NetworkManager is used by some distros, but not by Gentoo
-	rmdir -v "${ED}/var/run/NetworkManager" || die "rmdir failed"
-	rm -rf "${ED}/usr/share/bash-completion/nmcli" || die "rm failed"
-	# Need to keep the /etc/NetworkManager/dispatched.d for dispatcher scripts
 	keepdir /etc/NetworkManager/dispatcher.d
 
-	if use systemd; then
-		# Our init.d script requires running a dispatcher script that annoys
-		# systemd users; bug #434692
-		rm -rv "${ED}/etc/init.d" || die "rm failed"
-	else
-		# Provide openrc net dependency only when nm is connected
-		exeinto /etc/NetworkManager/dispatcher.d
-		newexe "${FILESDIR}/10-openrc-status-r4" 10-openrc-status
-		sed -e "s:@EPREFIX@:${EPREFIX}:g" \
-			-i "${ED}/etc/NetworkManager/dispatcher.d/10-openrc-status" || die
+	for i in data/*.service; do
+		systemd_dounit $i || die
+	done
 
-		# Default conf.d file
-		newconfd "${FILESDIR}/conf.d.NetworkManager" NetworkManager
-	fi
+	for i in openrc/*; do
+		doinitd $i || die
+	done
 
 	# Add keyfile plugin support
 	keepdir /etc/NetworkManager/system-connections
