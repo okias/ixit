@@ -1,4 +1,4 @@
-# Copyright 1999-2013 Gentoo Foundation
+# Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI="5"
@@ -7,7 +7,6 @@ VALA_USE_DEPEND="vapigen"
 
 inherit git-r3 bash-completion-r1 systemd user toolchain-funcs vala virtualx udev eutils
 
-
 DESCRIPTION="A network configuration daemon"
 HOMEPAGE="http://www.gnome.org/projects/NetworkManager/"
 EGIT_REPO_URI="git://anongit.freedesktop.org/NetworkManager/NetworkManager"
@@ -15,7 +14,7 @@ EGIT_REPO_URI="git://anongit.freedesktop.org/NetworkManager/NetworkManager"
 LICENSE="GPL-2"
 SLOT="0"
 IUSE="avahi bluetooth connection-sharing +consolekit +dhclient dhcpcd gnutls
-+introspection modemmanager +nss +ppp resolvconf systemd test vala
++introspection modemmanager +nss +openrc +ppp resolvconf systemd test vala
 +wext"
 KEYWORDS=""
 REQUIRED_USE="
@@ -56,7 +55,7 @@ RDEPEND="${COMMON_DEPEND}
 	consolekit? ( sys-auth/consolekit )
 "
 DEPEND="${COMMON_DEPEND}
-	dev-util/systemd2openrc
+	openrc? ( dev-util/systemd2openrc )
 	dev-util/gtk-doc
 	dev-util/gtk-doc-am
 	>=dev-util/intltool-0.40
@@ -103,12 +102,14 @@ src_configure() {
 src_compile() {
 	default
 
-	mkdir openrc || die
-	systemd2openrc data/NetworkManager.service --nodeps --pidfile /etc/NetworkManager/NetworkManager.pid > openrc/NetworkManager || die
-	systemd2openrc data/NetworkManager-dispatcher.service > openrc/NetworkManager-dispatcher || die
-	systemd2openrc data/NetworkManager-wait-online.service --nodeps > openrc/NetworkManager-wait-online || die
+	if use openrc; then
+		mkdir openrc || die
+		systemd2openrc data/NetworkManager.service --nodeps --pidfile /etc/NetworkManager/NetworkManager.pid > openrc/NetworkManager || die
+		systemd2openrc data/NetworkManager-dispatcher.service > openrc/NetworkManager-dispatcher || die
+		systemd2openrc data/NetworkManager-wait-online.service --nodeps > openrc/NetworkManager-wait-online || die
 
-	echo -ne "\ndepend() {\n    need NetworkManager\n    provide net\n}\n" >> openrc/NetworkManager-wait-online
+		echo -ne "\ndepend() {\n    need NetworkManager\n    provide net\n}\n" >> openrc/NetworkManager-wait-online
+	fi
 }
 
 src_install() {
@@ -119,10 +120,11 @@ src_install() {
 	for i in data/*.service; do
 		systemd_dounit $i || die
 	done
-
-	for i in openrc/*; do
-		doinitd $i || die
-	done
+	if use openrc; then
+		for i in openrc/*; do
+			doinitd $i || die
+		done
+	fi
 
 	# Add keyfile plugin support
 	keepdir /etc/NetworkManager/system-connections
