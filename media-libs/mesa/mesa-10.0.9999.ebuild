@@ -12,7 +12,7 @@ else
 fi
 
 if [[ ${PV} = *9999* ]]; then
-	GIT_ECLASS="git-2"
+	GIT_ECLASS="git-r3"
 	EXPERIMENTAL="true"
 fi
 
@@ -173,7 +173,7 @@ pkg_setup() {
 
 src_unpack() {
 	default
-	[[ $PV = *9999* ]] && git-2_src_unpack
+	[[ $PV = *9999* ]] && git-r3_src_unpack
 }
 
 src_prepare() {
@@ -233,10 +233,20 @@ multilib_src_configure() {
 		myconf+="--with-egl-platforms=x11$(use wayland && echo ",wayland")$(use gbm && echo ",drm") "
 	fi
 
+	if multilib_build_binaries; then
+		if use opencl; then
+			myconf+="
+				$(use_enable opencl)
+				--with-opencl-libdir="${EPREFIX}/usr/$(get_libdir)/OpenCL/vendors/mesa"
+				--with-clang-libdir="${EPREFIX}/usr/lib"
+				"
+		fi
+	else
+		use nine && myconf+="$(use_enable nine)"
+	fi
 	if use gallium; then
 		myconf+="
 			$(use_enable llvm gallium-llvm)
-			$(use_enable nine)
 			$(use_enable openvg)
 			$(use_enable openvg gallium-egl)
 			$(use_enable r600-llvm-compiler)
@@ -264,13 +274,6 @@ multilib_src_configure() {
 
 		gallium_enable video_cards_freedreno freedreno
 		# opencl stuff
-		if use opencl; then
-			myconf+="
-				$(use_enable opencl)
-				--with-opencl-libdir="${EPREFIX}/usr/$(get_libdir)/OpenCL/vendors/mesa"
-				--with-clang-libdir="${EPREFIX}/usr/lib"
-				"
-		fi
 	fi
 
 	# x86 hardened pax_kernel needs glx-rts, bug 240956
