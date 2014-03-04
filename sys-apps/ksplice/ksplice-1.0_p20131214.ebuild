@@ -3,7 +3,7 @@
 
 EAPI=5
 
-REV="d2f0a159f4528cf932b7a276e38c9cfddc1281c4"
+REV="8a03c0e0529e64dfdbeb2e2c80edc5dc417497ff"
 if [[ ${PV} == 9999* ]]; then
 	EGIT_REPO_URI="https://github.com/jirislaby/${PN}.git"
 	inherit git-r3
