@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+<herd>games</herd>
+<maintainer>
+<email>mr_bones_@gentoo.org</email>
+</maintainer>
+<use>
+	<flag name="sdl2">Enable new SDL2 rather than SDL 1.2</flag>
+</use>
+</pkgmetadata>
