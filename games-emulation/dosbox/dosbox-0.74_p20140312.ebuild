@@ -3,16 +3,16 @@
 # $Header: $
 
 EAPI=5
-ESVN_REPO_URI="https://dosbox.svn.sourceforge.net/svnroot/dosbox/dosbox/trunk"
-inherit autotools eutils subversion games
+inherit autotools eutils games
 
-SRC_URI=" sdl2? ( http://download.ixit.cz/${PN}-sdl2_20140308.patch ) "
+SRC_URI="http://download.ixit.cz/distfiles/${P}.tar.xz
+		sdl2? ( http://download.ixit.cz/${PN}-sdl2_20140308.patch )"
 DESCRIPTION="DOS emulator"
-HOMEPAGE="http://dosbox.sourceforge.net/"
+HOMEPAGE="http://dosbox.sourceforge.net/ http://ixit.cz/dosbox-get-rid-of-sdl-1-2-switch-to-2-0/"
 
 LICENSE="GPL-2"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~amd64 ~x86"
 IUSE="alsa debug hardened opengl +sdl2"
 
 DEPEND="alsa? ( media-libs/alsa-lib )
@@ -31,12 +31,7 @@ DEPEND="alsa? ( media-libs/alsa-lib )
 
 S=${WORKDIR}/${PN}
 
-src_unpack() {
-	subversion_src_unpack
-}
-
 src_prepare() {
-	subversion_src_prepare
 	use sdl2 && epatch "${DISTDIR}"/${PN}-sdl2_20140308.patch
 	eautoreconf
 }
