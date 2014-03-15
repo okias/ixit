@@ -1,0 +1,116 @@
+From f62132680aa92f498394db2d640779fa6578cb3d Mon Sep 17 00:00:00 2001
+From: David Heidelberger <david.heidelberger@ixit.cz>
+Date: Thu, 13 Mar 2014 21:28:42 +0100
+Subject: [PATCH] allow disabling ACL
+
+---
+ configure.ac                | 38 ++++++++++++++++++++++++++------------
+ src/udiskslinuxfilesystem.c |  8 ++++++--
+ 2 files changed, 32 insertions(+), 14 deletions(-)
+
+diff --git a/configure.ac b/configure.ac
+index 3a39b5a..e656abf 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -174,18 +174,31 @@ if test "x$with_systemdsystemunitdir" != "xno"; then
+ fi
+ AM_CONDITIONAL(HAVE_SYSTEMD, [test -n "$systemdsystemunitdir"])
+
+-# libacl
+-AC_CHECK_HEADERS(
+-        [sys/acl.h acl/libacl.h],
+-        [ACL_CFLAGS=""],
+-        AC_MSG_ERROR([*** ACL headers not found.]))
+-AC_CHECK_LIB(
+-        [acl],
+-        [acl_get_file],
+-        [ACL_LIBS="-lacl"],
+-        AC_MSG_ERROR([*** libacl not found.]))
+-AC_SUBST(ACL_CFLAGS)
+-AC_SUBST(ACL_LIBS)
++have_acl=no
++AC_ARG_ENABLE(acl, AS_HELP_STRING([--disable-acl], [disable acl support]))
++if test "x$enable_acl" != "xno"; then
++  AC_CHECK_HEADERS(
++          [sys/acl.h acl/libacl.h],
++          [
++            AC_CHECK_LIB(
++                [acl],
++                [acl_get_file],
++                [AC_DEFINE(HAVE_ACL, 1, [Define if libacl is available]) have_acl=yes],
++                have_acl=no)
++          ],
++          have_acl=no)
++  if test "x$have_acl" = "xyes"; then
++    ACL_CFLAGS=""
++    ACL_LIBS="-lacl"
++  fi
++  AC_SUBST(ACL_CFLAGS)
++  AC_SUBST(ACL_LIBS)
++  if test "x$have_acl" = xno -a "x$enable_acl" = xyes; then
++    AC_MSG_ERROR([acl support requested but libraries not found])
++  fi
++fi
++AM_CONDITIONAL(HAVE_ACL, [test "$have_acl" = "yes"])
++
+
+ # Internationalization
+ #
+@@ -232,6 +245,7 @@ echo "
+         udevdir:                    ${udevdir}
+         systemdsystemunitdir:       ${systemdsystemunitdir}
+         using libsystemd-login:     ${have_libsystemd_login}
++	acl support:                ${have_acl}
+
+         compiler:                   ${CC}
+         cflags:                     ${CFLAGS}
+diff --git a/src/udiskslinuxfilesystem.c b/src/udiskslinuxfilesystem.c
+index f243046..8a59919 100644
+--- a/src/udiskslinuxfilesystem.c
++++ b/src/udiskslinuxfilesystem.c
+@@ -29,7 +29,9 @@
+ #include <stdio.h>
+ #include <mntent.h>
+ #include <sys/types.h>
++#ifdef HAVE_ACL
+ #include <sys/acl.h>
++#endif
+ #include <errno.h>
+
+ #include <glib/gstdio.h>
+@@ -795,7 +797,7 @@ ensure_utf8 (const gchar *s)
+ }
+
+ /* ---------------------------------------------------------------------------------------------------- */
+-
++#ifdef HAVE_ACL
+ static gboolean
+ add_acl (const gchar  *path,
+          uid_t         uid,
+@@ -831,7 +833,7 @@ add_acl (const gchar  *path,
+     acl_free (acl);
+   return ret;
+ }
+-
++#endif
+ /*
+  * calculate_mount_point: <internal>
+  * @dameon: A #UDisksDaemon.
+@@ -920,6 +922,7 @@ calculate_mount_point (UDisksDaemon              *daemon,
+                            mount_dir);
+               goto out;
+             }
++#ifdef HAVE_ACL
+           /* Finally, add the read+execute ACL for $USER */
+           if (!add_acl (mount_dir, uid, error))
+             {
+@@ -927,6 +930,7 @@ calculate_mount_point (UDisksDaemon              *daemon,
+                 udisks_warning ("Error calling rmdir() on %s: %m", mount_dir);
+               goto out;
+             }
++#endif
+         }
+     }
+   /* otherwise fall back to mounting in /media */
+-- 
+1.9.0

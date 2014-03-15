@@ -1,0 +1,19 @@
+diff --git a/configure.ac b/configure.ac
+index e656abf..f9f2895 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -30,14 +30,6 @@ AC_PROG_LIBTOOL
+ 
+ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
+ 
+-# Initialization
+-#
+-
+-GNOME_COMMON_INIT
+-GNOME_DEBUG_CHECK
+-GNOME_COMPILE_WARNINGS([maximum])
+-GNOME_MAINTAINER_MODE_DEFINES
+-
+ # Compilation
+ #
+ 
