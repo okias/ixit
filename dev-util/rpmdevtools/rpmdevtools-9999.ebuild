@@ -8,7 +8,7 @@ EAPI=5
 
 DESCRIPTION="Collection of rpm packaging related utilities"
 HOMEPAGE="https://fedorahosted.org/rpmdevtools/"
-EGIT_REPO_URI="git://git.fedorahosted.org/${PN}"
+EGIT_REPO_URI="https://git.fedorahosted.org/git/${PN}"
 [ "${PV}" = 9999 ] || SRC_URI="https://fedorahosted.org/releases/r/p/${PN}/${P}.tar.xz"
 
 LICENSE="GPL-2"

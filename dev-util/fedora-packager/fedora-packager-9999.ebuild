@@ -9,7 +9,7 @@ inherit eutils autotools
 
 DESCRIPTION="Helper scripts for Fedora packagers"
 HOMEPAGE="https://fedorahosted.org/fedora-packager/"
-EGIT_REPO_URI="git://git.fedorahosted.org/${PN}"
+EGIT_REPO_URI="https://git.fedorahosted.org/git/${PN}"
 [ "${PV}" = 9999 ] || SRC_URI="https://fedorahosted.org/releases/${PN:0:1}/${PN:1:1}/${PN}/${P}.tar.bz2"
 
 LICENSE="GPL-3"

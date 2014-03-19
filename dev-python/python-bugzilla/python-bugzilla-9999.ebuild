@@ -9,7 +9,7 @@ inherit distutils-r1
 
 DESCRIPTION="Python library for interacting with Bugzilla"
 HOMEPAGE="https://fedorahosted.org/python-bugzilla/"
-EGIT_REPO_URI="git://git.fedorahosted.org/git/${PN}"
+EGIT_REPO_URI="https://git.fedorahosted.org/git/git/${PN}"
 [ "${PV}" = 9999 ] || SRC_URI="https://fedorahosted.org/releases/${PN:0:1}/${PN:1:1}/${PN}/${P}.tar.bz2"
 
 LICENSE="GPL-2"
