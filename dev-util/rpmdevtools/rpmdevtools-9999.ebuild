@@ -4,7 +4,7 @@
 
 EAPI=5
 
-[ "${PV}" = 9999 ] && inherit git-r3
+[ "${PV}" = 9999 ] && inherit git-r3 autotools
 
 DESCRIPTION="Collection of rpm packaging related utilities"
 HOMEPAGE="https://fedorahosted.org/rpmdevtools/"
@@ -32,5 +32,11 @@ RDEPEND="
 "
 
 src_prepare() {
-	sed -i '1 s/python /python2 /' rpmdev-rmdevelrpms.py || die
+	sed -i '1 s/python /python2 /' rpmdev-rmdevelrpms.py rpmdev-* || die
+}
+
+src_configure() {
+	[ "${PV}" = 9999 ] && eautoreconf
+
+	default
 }
