@@ -78,6 +78,7 @@ src_prepare() {
 src_configure() {
 	econf \
 		--disable-more-warnings \
+		--enable-gtk-doc \
 		--localstatedir=/var \
 		--with-dbus-sys-dir=/etc/dbus-1/system.d \
 		--with-udev-dir="$(udev_get_udevdir)" \
