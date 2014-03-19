@@ -13,7 +13,7 @@ ESVN_REPO_URI="http://www.nlnetlabs.nl/svn/${PN}/trunk"
 LICENSE="BSD"
 SLOT="0"
 KEYWORDS=""
-IUSE=""
+IUSE="+openrc +networkmanager"
 
 COMMON_DEPEND="
 	net-libs/ldns
@@ -21,13 +21,12 @@ COMMON_DEPEND="
 "
 DEPEND="
 	${COMMON_DEPEND}
-	dev-util/systemd2openrc
+	openrc? ( dev-util/systemd2openrc )
 "
 RDEPEND="
 	${COMMON_DEPEND}
 	net-dns/unbound
 "
-IUSE="+networkmanager"
 
 src_prepare() {
 	default
@@ -43,12 +42,12 @@ src_prepare() {
 		sed -i 's|ExecStart=/sbin/restorecon |ExecStart=-/sbin/restorecon |' contrib/dnssec-triggerd-keygen.service || die
 		cp contrib/01-dnssec-trigger-hook-new_nm contrib/dnssec-trigger-script || die
 		sed -i 's|/usr/sbin/pidof|/bin/pidof|' contrib/dnssec-trigger-script || die
-		cp contrib/dnssec-trigger-script contrib/dnssec-trigger-hook || die
+		cp contrib/dnssec-trigger-script contrib/01-dnssec-trigger || die
 		cp fedora/dnssec-triggerd-resolvconf-handle.sh contrib/ || die
 	fi
 
 	# Let the build system handle the NetworkManager hook
-	cp contrib/dnssec-trigger-hook 01-dnssec-trigger-hook.sh.in || die
+	cp contrib/01-dnssec-trigger 01-dnssec-trigger-hook.sh.in || die
 }
 
 src_configure() {
@@ -58,11 +57,13 @@ src_configure() {
 src_compile() {
 	default
 
-	mkdir openrc || die
-	systemd2openrc contrib/dnssec-triggerd.service > openrc/dnssec-triggerd || die
-	systemd2openrc contrib/dnssec-triggerd-keygen.service > openrc/dnssec-triggerd-keygen || die
-	if [ -e contrib/dnssec-triggerd-resolvconf-handle.service ]; then
-		systemd2openrc contrib/dnssec-triggerd-resolvconf-handle.service > openrc/dnssec-triggerd-resolvconf-handle || die
+	if use openrc; then
+		mkdir openrc || die
+		systemd2openrc contrib/dnssec-triggerd.service > openrc/dnssec-triggerd || die
+		systemd2openrc contrib/dnssec-triggerd-keygen.service > openrc/dnssec-triggerd-keygen || die
+		if [ -e contrib/dnssec-triggerd-resolvconf-handle.service ]; then
+			systemd2openrc contrib/dnssec-triggerd-resolvconf-handle.service > openrc/dnssec-triggerd-resolvconf-handle || die
+		fi
 	fi
 }
 
@@ -78,9 +79,11 @@ src_install() {
 	done
 
 	# Instal OpenRC initscripts
-	for i in openrc/*; do
-		doinitd $i || die
-	done
+	if [ -d openrc ]; then
+		for i in openrc/*; do
+			doinitd $i || die
+		done
+	fi
 
 	if use networkmanager; then
 		# Install the helper script
