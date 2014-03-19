@@ -26,8 +26,9 @@ DEPEND="
 "
 RDEPEND="
 	${COMMON_DEPEND}
-	dev-python/pycurl
-	dev-util/koji
 	dev-python/kitchen
+	dev-python/offtrac
+	dev-python/pycurl
 	dev-python/python-fedora
+	dev-util/koji
 "
