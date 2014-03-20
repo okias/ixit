@@ -21,8 +21,8 @@ else
 	S=${WORKDIR}/${MY_P}
 fi
 
-NINE_REV="8953c74"
-NINE_PATCH="wine-1.7.10-d3d9-${NINE_REV}.patch"
+NINE_REV="ea07c39"
+NINE_PATCH="wine-1.7.14-d3d9-${NINE_REV}.patch"
 
 GV="2.24"
 MV="4.5.2"
@@ -328,6 +328,7 @@ src_configure() {
 		$(use_with capi)
 		$(use_with lcms cms)
 		$(use_with cups)
+		$(use_with nine d3dadapter9)
 		$(use_with ncurses curses)
 		$(use_with udisks dbus)
 		$(use_with fontconfig)
