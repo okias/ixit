@@ -1,0 +1,75 @@
+--- CMakeLists.txt	2013-11-21 19:53:57.000000000 +0100
++++ CMakeLists.txt	2013-11-21 20:01:30.000000000 +0100
+@@ -30,6 +30,7 @@
+ 
+ set (ENABLE_EGL true CACHE BOOL "Enable EGL support.")
+ 
++option (BUILD_LIB_ONLY "Build the glxtrace library only" OFF)
+ 
+ ##############################################################################
+ # Find dependencies
+@@ -227,7 +228,14 @@
+ find_package (ZLIB REQUIRED)
+ include_directories (${ZLIB_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/zlib)
+ 
+-find_package(SNAPPY REQUIRED)
++if (BUILD_LIB_ONLY)
++	set (SNAPPY_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/snappy)
++	set (SNAPPY_LIBRARIES snappy_bundled)
++	add_subdirectory (thirdparty/snappy EXCLUDE_FROM_ALL)
++else (BUILD_LIB_ONLY)
++	find_package (SNAPPY REQUIRED)
++endif (BUILD_LIB_ONLY)
++
+ include_directories (${SNAPPY_INCLUDE_DIRS})
+ 
+ find_package (PNG REQUIRED)
+@@ -248,6 +256,8 @@
+ # - The packaged versions QJson are very old, and do not support NaN/Infinity.
+ # - To make it easier to build the GUI on Windows and MacOSX, as there are no
+ # binaries at all.
++if (NOT BUILD_LIB_ONLY)
++
+ if (QT4_FOUND)
+     add_definitions (-DQJSON_EXPORT=)
+     add_subdirectory (thirdparty/qjson)
+@@ -257,6 +267,8 @@
+     set (QJSON_FOUND TRUE)
+ endif ()
+ 
++endif (NOT BUILD_LIB_ONLY)
++
+ # We use bundled headers for all Khronos APIs, to guarantee support for both
+ # OpenGL and OpenGL ES at build time, because the OpenGL and OpenGL ES 1 APIs
+ # are so intertwined that conditional compilation extremely difficult. This
+@@ -362,10 +374,13 @@
+ ##############################################################################
+ # GUI
+ 
++if (NOT BUILD_LIB_ONLY)
++
+ if (ENABLE_GUI AND QT4_FOUND AND QJSON_FOUND)
+     add_subdirectory(gui)
+ endif ()
+ 
++endif (NOT BUILD_LIB_ONLY)
+ 
+ ##############################################################################
+ # Packaging
+--- retrace/CMakeLists.txt	2013-05-02 09:05:06.000000000 +0200
++++ retrace/CMakeLists.txt	2013-11-21 19:59:27.000000000 +0100
+@@ -11,6 +11,7 @@
+ 
+ add_definitions (-DRETRACE)
+ 
++if (NOT BUILD_LIB_ONLY)
+ add_custom_command (
+     OUTPUT glretrace_gl.cpp
+     COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/glretrace.py > ${CMAKE_CURRENT_BINARY_DIR}/glretrace_gl.cpp
+@@ -259,3 +260,6 @@
+ 
+     install (TARGETS d3dretrace RUNTIME DESTINATION bin)
+ endif ()
++
++endif (NOT BUILD_LIB_ONLY)
++
