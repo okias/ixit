@@ -1,12 +1,20 @@
-From f62132680aa92f498394db2d640779fa6578cb3d Mon Sep 17 00:00:00 2001
+From d8154d3b41777555be313ac2f2d060e169caa898 Mon Sep 17 00:00:00 2001
 From: David Heidelberger <david.heidelberger@ixit.cz>
 Date: Thu, 13 Mar 2014 21:28:42 +0100
-Subject: [PATCH] allow disabling ACL
+Upstream-Status: Submitted, http://lists.freedesktop.org/archives/devkit-devel/2014-March/001582.html
+Subject: [PATCH v2] allow disabling ACL
+
+This patch provide option to build and run udisks without ACL.
+Tested in full desktop environment.
+
+Signed-off-by: David Heidelberger <david.heidelberger@ixit.cz>
+
+v2: as replacement of ACL is used chown call.
 
 ---
  configure.ac                | 38 ++++++++++++++++++++++++++------------
- src/udiskslinuxfilesystem.c |  8 ++++++--
- 2 files changed, 32 insertions(+), 14 deletions(-)
+ src/udiskslinuxfilesystem.c | 10 ++++++++--
+ 2 files changed, 34 insertions(+), 14 deletions(-)
 
 diff --git a/configure.ac b/configure.ac
 index 3a39b5a..e656abf 100644
@@ -15,7 +23,7 @@ index 3a39b5a..e656abf 100644
 @@ -174,18 +174,31 @@ if test "x$with_systemdsystemunitdir" != "xno"; then
  fi
  AM_CONDITIONAL(HAVE_SYSTEMD, [test -n "$systemdsystemunitdir"])
-
+ 
 -# libacl
 -AC_CHECK_HEADERS(
 -        [sys/acl.h acl/libacl.h],
@@ -53,7 +61,7 @@ index 3a39b5a..e656abf 100644
 +fi
 +AM_CONDITIONAL(HAVE_ACL, [test "$have_acl" = "yes"])
 +
-
+ 
  # Internationalization
  #
 @@ -232,6 +245,7 @@ echo "
@@ -61,11 +69,11 @@ index 3a39b5a..e656abf 100644
          systemdsystemunitdir:       ${systemdsystemunitdir}
          using libsystemd-login:     ${have_libsystemd_login}
 +	acl support:                ${have_acl}
-
+ 
          compiler:                   ${CC}
          cflags:                     ${CFLAGS}
 diff --git a/src/udiskslinuxfilesystem.c b/src/udiskslinuxfilesystem.c
-index f243046..8a59919 100644
+index f243046..9f38630 100644
 --- a/src/udiskslinuxfilesystem.c
 +++ b/src/udiskslinuxfilesystem.c
 @@ -29,7 +29,9 @@
@@ -76,11 +84,11 @@ index f243046..8a59919 100644
  #include <sys/acl.h>
 +#endif
  #include <errno.h>
-
+ 
  #include <glib/gstdio.h>
 @@ -795,7 +797,7 @@ ensure_utf8 (const gchar *s)
  }
-
+ 
  /* ---------------------------------------------------------------------------------------------------- */
 -
 +#ifdef HAVE_ACL
@@ -96,21 +104,18 @@ index f243046..8a59919 100644
  /*
   * calculate_mount_point: <internal>
   * @dameon: A #UDisksDaemon.
-@@ -920,6 +922,7 @@ calculate_mount_point (UDisksDaemon              *daemon,
-                            mount_dir);
+@@ -921,7 +923,11 @@ calculate_mount_point (UDisksDaemon              *daemon,
                goto out;
              }
-+#ifdef HAVE_ACL
            /* Finally, add the read+execute ACL for $USER */
++#ifdef HAVE_ACL
            if (!add_acl (mount_dir, uid, error))
-             {
-@@ -927,6 +930,7 @@ calculate_mount_point (UDisksDaemon              *daemon,
-                 udisks_warning ("Error calling rmdir() on %s: %m", mount_dir);
-               goto out;
-             }
++#else
++          if (chown (mount_dir, uid, -1) == -1)
 +#endif
-         }
-     }
-   /* otherwise fall back to mounting in /media */
+             {
+               if (rmdir (mount_dir) != 0)
+                 udisks_warning ("Error calling rmdir() on %s: %m", mount_dir);
 -- 
 1.9.0
+
