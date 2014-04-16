@@ -61,7 +61,7 @@ pkg_setup() {
 src_prepare() {
 	epatch "${FILESDIR}"/${PN}-2.1.0-W_define.patch
 	epatch "${FILESDIR}"/${P}-deprecated.patch # fdo bug #73321
-	epatch "${FILESDIR}"/${P}-acl.patch # mailing list
+	epatch "${FILESDIR}"/${P}-aclv6.patch # mailing list http://lists.freedesktop.org/archives/devkit-devel/2014-April/001589.html
 	use systemd || { sed -i -e 's:libsystemd-login:&disable:' configure || die; }
 	eautoreconf
 }

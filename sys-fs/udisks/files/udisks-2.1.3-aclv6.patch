@@ -1,23 +1,21 @@
-From d8154d3b41777555be313ac2f2d060e169caa898 Mon Sep 17 00:00:00 2001
+From 20f5422eb97c6a421eaa3757c8dcfd99e48e566c Mon Sep 17 00:00:00 2001
 From: David Heidelberger <david.heidelberger@ixit.cz>
 Date: Thu, 13 Mar 2014 21:28:42 +0100
-Upstream-Status: Submitted, http://lists.freedesktop.org/archives/devkit-devel/2014-March/001582.html
-Subject: [PATCH v2] allow disabling ACL
+Subject: [PATCH] [v6] allow disabling ACL
 
 This patch provide option to build and run udisks without ACL.
-Tested in full desktop environment.
-
-Signed-off-by: David Heidelberger <david.heidelberger@ixit.cz>
-
-v2: as replacement of ACL is used chown call.
-
+v2: as replacement of ACL is used chown call
+v3: do not change uid, change gid
+v4: fix indentation & formating issues
+v5: one missed empty line
+v6: add g_set_error for chown
 ---
  configure.ac                | 38 ++++++++++++++++++++++++++------------
- src/udiskslinuxfilesystem.c | 10 ++++++++--
- 2 files changed, 34 insertions(+), 14 deletions(-)
+ src/udiskslinuxfilesystem.c | 17 +++++++++++++++++
+ 2 files changed, 43 insertions(+), 12 deletions(-)
 
 diff --git a/configure.ac b/configure.ac
-index 3a39b5a..e656abf 100644
+index 3a39b5a..22b1f0c 100644
 --- a/configure.ac
 +++ b/configure.ac
 @@ -174,18 +174,31 @@ if test "x$with_systemdsystemunitdir" != "xno"; then
@@ -68,12 +66,12 @@ index 3a39b5a..e656abf 100644
          udevdir:                    ${udevdir}
          systemdsystemunitdir:       ${systemdsystemunitdir}
          using libsystemd-login:     ${have_libsystemd_login}
-+	acl support:                ${have_acl}
++        acl support:                ${have_acl}
  
          compiler:                   ${CC}
          cflags:                     ${CFLAGS}
 diff --git a/src/udiskslinuxfilesystem.c b/src/udiskslinuxfilesystem.c
-index f243046..9f38630 100644
+index f243046..e5e1470 100644
 --- a/src/udiskslinuxfilesystem.c
 +++ b/src/udiskslinuxfilesystem.c
 @@ -29,7 +29,9 @@
@@ -86,36 +84,52 @@ index f243046..9f38630 100644
  #include <errno.h>
  
  #include <glib/gstdio.h>
-@@ -795,7 +797,7 @@ ensure_utf8 (const gchar *s)
- }
+@@ -796,6 +798,7 @@ ensure_utf8 (const gchar *s)
  
  /* ---------------------------------------------------------------------------------------------------- */
--
+ 
 +#ifdef HAVE_ACL
  static gboolean
  add_acl (const gchar  *path,
           uid_t         uid,
-@@ -831,7 +833,7 @@ add_acl (const gchar  *path,
+@@ -831,6 +834,7 @@ add_acl (const gchar  *path,
      acl_free (acl);
    return ret;
  }
--
 +#endif
+ 
  /*
   * calculate_mount_point: <internal>
-  * @dameon: A #UDisksDaemon.
-@@ -921,7 +923,11 @@ calculate_mount_point (UDisksDaemon              *daemon,
+@@ -911,7 +915,11 @@ calculate_mount_point (UDisksDaemon              *daemon,
+                 }
+             }
+           /* Then create the per-user /run/media/$USER */
++#ifdef HAVE_ACL
+           if (g_mkdir (mount_dir, 0700) != 0)
++#else
++          if (g_mkdir (mount_dir, 0750) != 0)
++#endif
+             {
+               g_set_error (error,
+                            UDISKS_ERROR,
+@@ -921,8 +929,17 @@ calculate_mount_point (UDisksDaemon              *daemon,
                goto out;
              }
            /* Finally, add the read+execute ACL for $USER */
 +#ifdef HAVE_ACL
            if (!add_acl (mount_dir, uid, error))
-+#else
-+          if (chown (mount_dir, uid, -1) == -1)
-+#endif
              {
++#else
++          if (chown (mount_dir, -1, gid) == -1)
++            {
++               g_set_error (error, G_IO_ERROR,
++                            g_io_error_from_errno (errno),
++                            "Failed to change gid to %d for %s: %m",
++                            (gint) gid, mount_dir);
++#endif
                if (rmdir (mount_dir) != 0)
                  udisks_warning ("Error calling rmdir() on %s: %m", mount_dir);
+               goto out;
 -- 
 1.9.0
 
