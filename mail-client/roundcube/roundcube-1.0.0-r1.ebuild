@@ -3,7 +3,7 @@
 
 EAPI=5
 
-inherit webapp
+inherit webapp eutils
 
 MY_PN=${PN}mail
 MY_P=${MY_PN}-${PV/_/-}
