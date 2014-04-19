@@ -33,6 +33,7 @@ need_httpd_cgi
 S=${WORKDIR}/${MY_P}
 
 src_prepare() {
+	epatch "${FILESDIR}"/roundcube-1.0.0-compose-fix.patch
 	# Remove bundled PEAR packages
 	rm -r program/lib/{Auth,Mail,Net,PEAR*} || die
 }
