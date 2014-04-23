@@ -30,7 +30,6 @@ DEPEND="${RDEPEND}
 S=${WORKDIR}/${PN}-s${PV}
 
 src_prepare() {
-	epatch "${FILESDIR}"/021109-uclibc-no-ether_ntohost.patch
 	# epatch "${FILESDIR}"/${PN}-20121221-printf-size.patch
 	# epatch "${FILESDIR}"/${PN}-20121221-owl-pingsock.diff # TODO, does anyone seen this work?
 	use SECURITY_HAZARD && epatch "${FILESDIR}"/${PN}-20071127-nonroot-floodping.patch
