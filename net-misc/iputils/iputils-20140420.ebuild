@@ -6,7 +6,7 @@ EAPI=5
 inherit flag-o-matic eutils toolchain-funcs fcaps
 SRC_URI="https://www.github.com/${PN}/${PN}/archive/s${PV}.tar.gz -> ${P}.tar.gz
 		mirror://gentoo/iputils-s20121221-manpages.tar.bz2"
-KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~hppa ~ia64 ~m68k ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~ppc-aix ~amd64-linux ~x86-linux"
+KEYWORDS="~alpha amd64 ~arm ~arm64 ~hppa ~ia64 ~m68k ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~ppc-aix ~amd64-linux ~x86-linux"
 
 DESCRIPTION="Network monitoring tools including ping and ping6"
 HOMEPAGE="https://github.com/iputils/iputils/"
@@ -18,8 +18,10 @@ IUSE="caps doc gnutls idn ipv6 SECURITY_HAZARD ssl static"
 LIB_DEPEND="caps? ( sys-libs/libcap[static-libs(+)] )
 	idn? ( net-dns/libidn[static-libs(+)] )
 	ipv6? (
-		gnutls? ( net-libs/gnutls[static-libs(+)] )
-		ssl? ( dev-libs/openssl:0[static-libs(+)] )
+		ssl? (
+			gnutls? ( net-libs/gnutls[static-libs(+)] )
+			!gnutls? ( dev-libs/openssl:0[static-libs(+)] )
+		)
 	)"
 RDEPEND="!net-misc/rarpd
 	!static? ( ${LIB_DEPEND//\[static-libs(+)]} )"
