@@ -34,6 +34,8 @@ S=${WORKDIR}/${MY_P}
 
 src_prepare() {
 	epatch "${FILESDIR}"/roundcube-1.0.0-compose-fix.patch
+	rm -r program/js/app.min.js
+
 	# Remove bundled PEAR packages
 	rm -r program/lib/{Auth,Mail,Net,PEAR*} || die
 }
@@ -52,4 +54,18 @@ src_install() {
 	webapp_configfile "${MY_HTDOCSDIR}"/config/defaults.inc.php
 	webapp_postupgrade_txt en UPGRADING
 	webapp_src_install
+}
+
+pkg_postinst() {
+	ewarn "When upgrading from <= 0.9 the old configuration files named"
+	ewarn "main.inc.php and db.inc.php are now deprecated and should be"
+	ewarn "replaced with one single config.inc.php file."
+	ewarn "Run the ./bin/update.sh script to get this conversion done"
+	ewarn "or manually merge the files."
+	ewarn "NOTE: the new config.inc.php should only contain options that"
+	ewarn "differ from the ones listed in defaults.inc.php."
+
+	ewarn "If you have problem with"
+	ewarn "unexpected redirects to inbox after auto-saving a draft (#1489789)"
+	ewarn "remove app.min.js file from program/js/app.min.js"
 }
