@@ -127,6 +127,8 @@ src_install() {
 		done
 	fi
 
+	systemd_enable_service network-online.target NetworkManager-wait-online.service
+
 	# Add keyfile plugin support
 	keepdir /etc/NetworkManager/system-connections
 	chmod 0600 "${ED}"/etc/NetworkManager/system-connections/.keep* # bug #383765
