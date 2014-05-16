@@ -9,7 +9,7 @@ inherit cmake-multilib eutils python-single-r1 vcs-snapshot
 
 DESCRIPTION="A tool for tracing, analyzing, and debugging graphics APIs"
 HOMEPAGE="https://github.com/apitrace/apitrace"
-REV="485846b2a40d8ac7d6c1c5f8af6d15b0c10af19d"
+REV="3691614d0045f7968addce45d4140fb360c3ceaf"
 SRC_URI="https://github.com/${PN}/${PN}/archive/${REV}.zip -> ${P}.zip"
 
 LICENSE="MIT"

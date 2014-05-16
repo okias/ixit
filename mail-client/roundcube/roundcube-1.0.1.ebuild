@@ -3,7 +3,7 @@
 
 EAPI=5
 
-inherit webapp eutils
+inherit webapp
 
 MY_PN=${PN}mail
 MY_P=${MY_PN}-${PV/_/-}
@@ -33,9 +33,6 @@ need_httpd_cgi
 S=${WORKDIR}/${MY_P}
 
 src_prepare() {
-	epatch "${FILESDIR}"/roundcube-1.0.0-compose-fix.patch
-	rm -r program/js/app.min.js
-
 	# Remove bundled PEAR packages
 	rm -r program/lib/{Auth,Mail,Net,PEAR*} || die
 }
@@ -64,8 +61,4 @@ pkg_postinst() {
 	ewarn "or manually merge the files."
 	ewarn "NOTE: the new config.inc.php should only contain options that"
 	ewarn "differ from the ones listed in defaults.inc.php."
-
-	ewarn "If you have problem with"
-	ewarn "unexpected redirects to inbox after auto-saving a draft (#1489789)"
-	ewarn "remove app.min.js file from program/js/app.min.js"
 }
