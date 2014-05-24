@@ -37,7 +37,7 @@ src_prepare() {
 	use SECURITY_HAZARD && epatch "${FILESDIR}"/${PN}-20071127-nonroot-floodping.patch
 	use static && append-ldflags -static
 
-	mv ${WORKDIR}/${PN}-s20121221/doc/* ${S}/doc/ || die
+	mv "${WORKDIR}"/${PN}-s20121221/doc/* "${S}"/doc/ || die
 }
 
 src_compile() {
