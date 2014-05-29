@@ -21,8 +21,8 @@ else
 	S=${WORKDIR}/${MY_P}
 fi
 
-NINE_REV="ea07c39"
-NINE_PATCH="wine-1.7.14-d3d9-${NINE_REV}.patch"
+NINE_REV="92e58e2"
+NINE_PATCH="wine-1.7.19-d3d9-${NINE_REV}.patch"
 
 GV="2.24"
 MV="4.5.2"
@@ -31,7 +31,7 @@ WINE_GENTOO="wine-gentoo-2013.06.24"
 DESCRIPTION="Free implementation of Windows(tm) on Unix"
 HOMEPAGE="http://www.winehq.org/"
 SRC_URI="${SRC_URI}
-	nine? ( http://download.ixit.cz/d3d9/${NINE_PATCH} ) 
+	nine? ( http://download.ixit.cz/d3d9/${NINE_PATCH} )
 	gecko? (
 		abi_x86_32? ( mirror://sourceforge/${PN}/Wine%20Gecko/${GV}/wine_gecko-${GV}-x86.msi )
 		abi_x86_64? ( mirror://sourceforge/${PN}/Wine%20Gecko/${GV}/wine_gecko-${GV}-x86_64.msi )
@@ -181,6 +181,7 @@ COMMON_DEPEND="
 				>=media-sound/pulseaudio-4.0-r1[abi_x86_32]
 			) )
 			scanner? ( app-emulation/emul-linux-x86-medialibs[development] )
+			ssl? ( net-libs/gnutls:=[abi_x86_32] )
 			png? ( || (
 				app-emulation/emul-linux-x86-baselibs[development]
 				media-libs/libpng:0[abi_x86_32]
