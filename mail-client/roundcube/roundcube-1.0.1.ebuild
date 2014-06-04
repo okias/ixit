@@ -19,14 +19,17 @@ KEYWORDS="amd64 ~arm ~hppa ~ppc ~ppc64 ~sparc ~x86"
 IUSE="ldap +mysql postgres sqlite ssl spell"
 
 RDEPEND="virtual/httpd-php
-	>=dev-lang/php-5.3[crypt,gd,iconv,json,ldap?,pdo,postgres?,session,sockets,ssl?,xml,unicode]
+	>=dev-lang/php-5.3[crypt,filter,gd,iconv,json,ldap?,pdo,postgres?,session,sockets,ssl?,xml,unicode]
 	mysql? ( || ( dev-lang/php[mysql] dev-lang/php[mysqli] ) )
 	spell? ( dev-lang/php[curl,spell] )
 	sqlite? ( || ( dev-lang/php[sqlite] dev-lang/php[sqlite3] ) )
 	>=dev-php/PEAR-Mail_Mime-1.8.1
 	>=dev-php/PEAR-Net_SMTP-1.4.2
 	>=dev-php/PEAR-Net_IDNA2-0.1.1
-	>=dev-php/PEAR-Auth_SASL-1.0.3"
+	>=dev-php/PEAR-Auth_SASL-1.0.3
+	>=dev-php/PEAR-Crypt_GPG-1.3.2
+	>=dev-php/PEAR-Net_Sieve-1.3.2
+	>=dev-php/PEAR-Net_Socket-1.0.14"
 
 need_httpd_cgi
 
@@ -34,7 +37,7 @@ S=${WORKDIR}/${MY_P}
 
 src_prepare() {
 	# Remove bundled PEAR packages
-	rm -r program/lib/{Auth,Mail,Net,PEAR*} || die
+	rm -r program/lib/{Auth,Crypt,Mail,Net,PEAR*} || die
 }
 
 src_install() {
