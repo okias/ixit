@@ -60,6 +60,8 @@ KMEXTRACTONLY="
 	libs/oxygen/
 "
 
+PATCHES=( "${FILESDIR}/${P}-hidewindow.patch" )
+
 # you need one of these
 REQUIRED_USE="!opengl? ( gles )
 		!gles? ( opengl )
