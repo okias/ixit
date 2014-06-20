@@ -52,7 +52,7 @@ multilib_src_configure() {
 multilib_src_install() {
 	default
 #	dodoc sysctl.conf
-	if multilib_build_binaries ; then
+	if multilib_is_native_abi ; then
 		mv "${ED}"/usr/bin/pidof "${ED}"/bin/ || die
 
 		# The configure script is completely whacked in the head
