@@ -26,7 +26,7 @@ NINE_PATCH="wine-1.7.19-d3d9-${NINE_REV}.patch"
 
 GV="2.24"
 MV="4.5.2"
-PULSE_PATCHES="winepulse-patches-1.7.12"
+PULSE_PATCHES="winepulse-patches-1.7.20"
 WINE_GENTOO="wine-gentoo-2013.06.24"
 DESCRIPTION="Free implementation of Windows(tm) on Unix"
 HOMEPAGE="http://www.winehq.org/"
