@@ -30,7 +30,7 @@ CDEPEND="dev-java/beansbinding:0
 	dev-java/commons-lang:2.1
 	dev-java/commons-logging:0
 	dev-java/jgoodies-looks:2.0
-	dev-java/netbeans-platform:7.3"
+	dev-java/netbeans-platform:7.4"
 
 DEPEND=">=virtual/jdk-1.7
 	${CDEPEND}"
@@ -63,9 +63,9 @@ java_prepare() {
 	rm -v lib/JGoodies-Looks/looks-2.1.4.jar
 	java-pkg_jar-from jgoodies-looks-2.0 looks.jar lib/JGoodies-Looks/looks-2.1.4.jar
 	#rm -v lib/openide-l10n/org-openide-awt.jar
-	#java-pkg_jar-from netbeans-platform-7.3 org-openide-awt.jar lib/openide-l10n/org-openide-awt.jar
+	#java-pkg_jar-from netbeans-platform-7.4 org-openide-awt.jar lib/openide-l10n/org-openide-awt.jar
 	rm -v lib/openide-l10n/org-openide-util.jar
-	java-pkg_jar-from netbeans-platform-7.3 org-openide-util.jar lib/openide-l10n/org-openide-util.jar
+	java-pkg_jar-from netbeans-platform-7.4 org-openide-util.jar lib/openide-l10n/org-openide-util.jar
 
 	#echo "rest of it"
 	#rm -v lib/*/*.jar || die
