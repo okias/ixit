@@ -3,7 +3,6 @@
 <pkgmetadata>
 	<herd>sound</herd>
 	<use>
-		<flag name='sse4'>Support SSE 4.1 optimalizations, may improve performance on CPU with SSE 4.1.</flag>
 		<flag name='wave'>Allow write output to a wav file instead of an audio device.</flag>
 	</use>
 </pkgmetadata>

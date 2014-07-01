@@ -14,7 +14,7 @@ EGIT_REPO_URI="git://repo.or.cz/openal-soft.git"
 LICENSE="LGPL-2"
 SLOT="0"
 KEYWORDS=""
-IUSE="alsa coreaudio debug neon oss portaudio pulseaudio sse sse2 sse4 wave"
+IUSE="alsa coreaudio debug neon oss portaudio pulseaudio sse sse2 sse4_1 wave"
 
 RDEPEND="alsa? ( media-libs/alsa-lib[${MULTILIB_USEDEP}] )
 	portaudio? ( >=media-libs/portaudio-19_pre[${MULTILIB_USEDEP}] )
@@ -50,8 +50,8 @@ src_configure() {
 			$(cmake-utils_use sse ALSOFT_REQUIRE_SSE)
 			$(cmake-utils_use sse2 ALSOFT_CPUEXT_SSE2)
 			$(cmake-utils_use sse2 ALSOFT_REQUIRE_SSE2)
-			$(cmake-utils_use sse4 ALSOFT_CPUEXT_SSE4_1)
-			$(cmake-utils_use sse4 ALSOFT_REQUIRE_SSE4_1)
+			$(cmake-utils_use sse4_1 ALSOFT_CPUEXT_SSE4_1)
+			$(cmake-utils_use sse4_1 ALSOFT_REQUIRE_SSE4_1)
 			$(cmake-utils_use wave ALSOFT_BACKEND_WAVE)
 			$(cmake-utils_use wave ALSOFT_REQUIRE_WAVE)
 			-DALSOFT_EXAMPLES=OFF
