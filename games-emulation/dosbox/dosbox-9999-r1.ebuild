@@ -6,7 +6,7 @@ EAPI=5
 ESVN_REPO_URI="https://dosbox.svn.sourceforge.net/svnroot/dosbox/dosbox/trunk"
 inherit autotools eutils subversion games
 
-SRC_URI=" sdl2? ( http://download.ixit.cz/${PN}-sdl2_20140316.patch ) "
+SRC_URI=" sdl2? ( http://download.ixit.cz/${PN}-sdl2_20140712.patch ) "
 DESCRIPTION="DOS emulator"
 HOMEPAGE="http://dosbox.sourceforge.net/"
 
@@ -37,7 +37,7 @@ src_unpack() {
 
 src_prepare() {
 	subversion_src_prepare
-	use sdl2 && epatch "${DISTDIR}"/${PN}-sdl2_20140316.patch
+	use sdl2 && epatch "${DISTDIR}"/${PN}-sdl2_20140712.patch
 	eautoreconf
 }
 

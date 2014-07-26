@@ -6,7 +6,7 @@ EAPI=5
 inherit autotools eutils games
 
 SRC_URI="http://download.ixit.cz/distfiles/${P}.tar.xz
-		sdl2? ( http://download.ixit.cz/${PN}-sdl2_20140316.patch )"
+		sdl2? ( http://download.ixit.cz/${PN}-sdl2_20140712.patch )"
 DESCRIPTION="DOS emulator"
 HOMEPAGE="http://dosbox.sourceforge.net/ http://ixit.cz/dosbox-get-rid-of-sdl-1-2-switch-to-2-0/"
 
@@ -32,7 +32,7 @@ DEPEND="alsa? ( media-libs/alsa-lib )
 S=${WORKDIR}/${PN}
 
 src_prepare() {
-	use sdl2 && epatch "${DISTDIR}"/${PN}-sdl2_20140316.patch
+	use sdl2 && epatch "${DISTDIR}"/${PN}-sdl2_20140712.patch
 	eautoreconf
 }
 
