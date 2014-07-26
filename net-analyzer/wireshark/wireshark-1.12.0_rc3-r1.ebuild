@@ -1,20 +1,20 @@
 # Copyright 1999-2014 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/net-analyzer/wireshark/wireshark-1.12.0_rc2.ebuild,v 1.1 2014/06/14 00:43:19 jer Exp $
+# $Header: $
 
 EAPI=5
 inherit autotools eutils fcaps qt4-r2 user
 
 DESCRIPTION="A network protocol analyzer formerly known as ethereal"
 HOMEPAGE="http://www.wireshark.org/"
-SRC_URI="${HOMEPAGE}download/src/all-versions/${P/_/-}.tar.bz2"
+SRC_URI="${HOMEPAGE}download/src/all-versions/${P/_}.tar.bz2"
 
 LICENSE="GPL-2"
 SLOT="0/${PV}"
 KEYWORDS="~alpha ~amd64 ~arm ~hppa ~ia64 ~ppc ~ppc64 ~sparc ~x86 ~x86-fbsd"
 IUSE="
-	adns +caps crypt doc doc-pdf geoip +gtk3 ipv6 kerberos libadns lua
-	+netlink +pcap portaudio +qt4 qt5 selinux smi ssl zlib
+	adns +caps crypt doc doc-pdf geoip +gtk3 ipv6 kerberos lua +netlink +pcap
+	portaudio +qt4 qt5 selinux smi ssl zlib
 "
 REQUIRED_USE="
 	ssl? ( crypt )
@@ -29,7 +29,7 @@ GTK_COMMON_DEPEND="
 RDEPEND="
 	>=dev-libs/glib-2.14:2
 	netlink? ( dev-libs/libnl )
-	adns? ( !libadns? ( >=net-dns/c-ares-1.5 ) )
+	adns? ( >=net-dns/c-ares-1.5 )
 	crypt? ( dev-libs/libgcrypt:0 )
 	caps? ( sys-libs/libcap )
 	geoip? ( dev-libs/geoip )
@@ -38,7 +38,6 @@ RDEPEND="
 		x11-libs/gtk+:3
 	)
 	kerberos? ( virtual/krb5 )
-	libadns? ( net-libs/adns )
 	lua? ( >=dev-lang/lua-5.1 )
 	pcap? ( net-libs/libpcap[-netlink] )
 	portaudio? ( media-libs/portaudio )
@@ -77,7 +76,7 @@ DEPEND="
 	virtual/pkgconfig
 "
 
-S=${WORKDIR}/${P/_/-}
+S=${WORKDIR}/${P/_}
 
 pkg_setup() {
 	enewgroup wireshark
@@ -107,20 +106,6 @@ src_prepare() {
 src_configure() {
 	local myconf
 
-	if use adns; then
-		if use libadns; then
-			myconf+=( "--with-adns --without-c-ares" )
-		else
-			myconf+=( "--without-adns --with-c-ares" )
-		fi
-	else
-		if use libadns; then
-			myconf+=( "--with-adns --without-c-ares" )
-		else
-			myconf+=( "--without-adns --without-c-ares" )
-		fi
-	fi
-
 	# Workaround bug #213705. If krb5-config --libs has -lcrypto then pass
 	# --with-ssl to ./configure. (Mimics code from acinclude.m4).
 	if use kerberos; then
@@ -149,6 +134,7 @@ src_configure() {
 	# --disable-profile-build bugs #215806, #292991, #479602
 	econf \
 		$(use_enable ipv6) \
+		$(use_with adns c-ares) \
 		$(use_with caps libcap) \
 		$(use_with crypt gcrypt) \
 		$(use_with geoip) \
@@ -167,6 +153,7 @@ src_configure() {
 		--disable-profile-build \
 		--disable-usr-local \
 		--sysconfdir="${EPREFIX}"/etc/wireshark \
+		--without-adns \
 		${myconf[@]}
 }
 
@@ -191,7 +178,20 @@ src_install() {
 
 	# install headers
 	local wsheader
-	for wsheader in $( echo $(< debian/wireshark-dev.header-files ) ); do
+	for wsheader in \
+		color.h \
+		config.h \
+		epan/*.h \
+		epan/crypt/*.h \
+		epan/dfilter/*.h \
+		epan/dissectors/*.h \
+		epan/ftypes/*.h \
+		epan/wmem/*.h \
+		register.h \
+		wiretap/*.h \
+		ws_symbol_export.h \
+		wsutil/*.h
+	do
 		insinto /usr/include/wireshark/$( dirname ${wsheader} )
 		doins ${wsheader}
 	done
