@@ -7,7 +7,7 @@ inherit autotools eutils fcaps qt4-r2 user
 
 DESCRIPTION="A network protocol analyzer formerly known as ethereal"
 HOMEPAGE="http://www.wireshark.org/"
-SRC_URI="${HOMEPAGE}download/src/all-versions/${P/_}.tar.bz2"
+SRC_URI="${HOMEPAGE}download/src/all-versions/${P}.tar.bz2"
 
 LICENSE="GPL-2"
 SLOT="0/${PV}"
@@ -75,8 +75,6 @@ DEPEND="
 	virtual/perl-Time-Local
 	virtual/pkgconfig
 "
-
-S=${WORKDIR}/${P/_}
 
 pkg_setup() {
 	enewgroup wireshark
