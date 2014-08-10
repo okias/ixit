@@ -11,18 +11,18 @@ SRC_URI="http://udisks.freedesktop.org/releases/${P}.tar.bz2"
 
 LICENSE="GPL-2"
 SLOT="2"
-KEYWORDS="~alpha ~amd64 ~arm ~ia64 ~mips ~ppc ~ppc64 ~sh ~sparc ~x86"
+KEYWORDS="alpha amd64 arm ia64 ~mips ppc ppc64 ~sh sparc x86"
 IUSE="acl debug cryptsetup +gptfdisk +introspection selinux systemd"
 
-UDEV_VERSION="208"
 COMMON_DEPEND=">=dev-libs/glib-2.32
 	>=dev-libs/libatasmart-0.19
 	>=sys-auth/polkit-0.110
 	acl? ( virtual/acl )
-	>=virtual/udev-${UDEV_VERSION}[gudev]
+	virtual/libgudev:=
+	virtual/udev
 	introspection? ( >=dev-libs/gobject-introspection-1.30 )
 	selinux? ( sec-policy/selinux-devicekit )
-	systemd? ( >=sys-apps/systemd-${UDEV_VERSION} )"
+	systemd? ( sys-apps/systemd )"
 # gptfdisk -> src/udiskslinuxpartition.c -> sgdisk (see also #412801#c1)
 # util-linux -> mount, umount, swapon, swapoff (see also #403073)
 RDEPEND="${COMMON_DEPEND}
