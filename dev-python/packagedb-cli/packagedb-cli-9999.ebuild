@@ -7,17 +7,21 @@ PYTHON_COMPAT=( python2_7 )
 inherit distutils-r1
 [ "${PV}" = 9999 ] && inherit git-r3
 
-DESCRIPTION="Python library for interacting with Bugzilla"
-HOMEPAGE="https://fedorahosted.org/python-bugzilla/"
+DESCRIPTION="Python modules for talking to Fedora Infrastructure Services"
+HOMEPAGE="https://fedorahosted.org/packagedb-cli/"
 EGIT_REPO_URI="https://git.fedorahosted.org/git/${PN}"
 [ "${PV}" = 9999 ] || SRC_URI="https://fedorahosted.org/releases/${PN:0:1}/${PN:1:1}/${PN}/${P}.tar.bz2"
 
-LICENSE="GPL-2"
+LICENSE="LGPL-2"
 SLOT="0"
 KEYWORDS=""
 IUSE=""
 
+COMMON_DEPEND="
+"
 DEPEND="
-	dev-python/setuptools
-	sys-apps/file[python]
+	${COMMON_DEPEND}
+"
+RDEPEND="
+	${COMMON_DEPEND}
 "

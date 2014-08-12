@@ -18,6 +18,7 @@ KEYWORDS=""
 IUSE=""
 
 RDEPEND="
+	dev-python/iniparse
 	dev-python/pycurl
 	dev-python/urlgrabber
 	dev-util/fedpkg

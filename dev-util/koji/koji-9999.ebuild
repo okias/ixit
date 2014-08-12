@@ -3,8 +3,9 @@
 # $Header: $
 
 EAPI=5
+PYTHON_COMPAT=( python2_7 )
 
-inherit eutils
+inherit eutils python-single-r1
 [ "${PV}" = 9999 ] && inherit git-r3
 
 DESCRIPTION="Build system for the Fedora project"
@@ -15,7 +16,7 @@ EGIT_REPO_URI="https://git.fedorahosted.org/git/${PN}"
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS=""
-IUSE="minimal"
+IUSE="+minimal"
 
 COMMON_DEPEND="
 	app-arch/rpm
@@ -39,6 +40,8 @@ src_prepare() {
 }
 
 src_install() {
+	mkdir ${D}/etc
+
 	if use minimal ; then
 		emake -j1 -C koji install DESTDIR="${D}" || die
 		emake -j1 -C cli install DESTDIR="${D}" || die
