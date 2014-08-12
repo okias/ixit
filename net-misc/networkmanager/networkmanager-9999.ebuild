@@ -9,7 +9,7 @@ inherit git-r3 bash-completion-r1 systemd user toolchain-funcs vala virtualx ude
 
 DESCRIPTION="A network configuration daemon"
 HOMEPAGE="http://www.gnome.org/projects/NetworkManager/"
-EGIT_REPO_URI="git://anongit.freedesktop.org/NetworkManager/NetworkManager"
+EGIT_REPO_URI="http://anongit.freedesktop.org/git/NetworkManager/NetworkManager.git"
 
 LICENSE="GPL-2"
 SLOT="0"
@@ -21,7 +21,6 @@ REQUIRED_USE="
 	modemmanager? ( ppp )
 	^^ ( nss gnutls )
 	^^ ( dhclient dhcpcd )
-	?? ( consolekit systemd )
 "
 COMMON_DEPEND="
 	>=sys-apps/dbus-1.2
@@ -32,7 +31,7 @@ COMMON_DEPEND="
 	>=sys-auth/polkit-0.106
 	>=net-libs/libsoup-2.26:2.4=
 	>=net-wireless/wpa_supplicant-0.7.3-r3[dbus]
-	>=virtual/udev-165[gudev]
+	>=virtual/udev-165
 	bluetooth? ( >=net-wireless/bluez-4.82 )
 	avahi? ( net-dns/avahi:=[autoipd] )
 	connection-sharing? (
@@ -70,22 +69,23 @@ DEPEND="${COMMON_DEPEND}
 "
 
 src_prepare() {
-	NOCONFIGURE=yes ./autogen.sh
-
 	use vala && vala_src_prepare
 }
 
 src_configure() {
+	NOCONFIGURE=yes ./autogen.sh
+
 	econf \
 		--disable-more-warnings \
 		--enable-gtk-doc \
 		--localstatedir=/var \
 		--with-dbus-sys-dir=/etc/dbus-1/system.d \
-		--with-udev-dir="$(udev_get_udevdir)" \
+		--with-udev-dir="$(get_udevdir)" \
 		--with-iptables=/sbin/iptables \
 		--enable-concheck \
 		--with-crypto=$(usex nss nss gnutls) \
-		--with-session-tracking=$(usex consolekit consolekit $(usex systemd systemd no)) \
+		$(use_with systemd systemd-logind) \
+		$(use_with consolekit) \
 		--with-suspend-resume=$(usex systemd systemd upower) \
 		--disable-wimax \
 		$(use_enable introspection) \
@@ -132,7 +132,6 @@ src_install() {
 	# Add keyfile plugin support
 	keepdir /etc/NetworkManager/system-connections
 	chmod 0600 "${ED}"/etc/NetworkManager/system-connections/.keep* # bug #383765
-	insinto /etc/NetworkManager
 
 	# Allow users in plugdev group to modify system connections
 	insinto /usr/share/polkit-1/rules.d/
