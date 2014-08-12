@@ -27,14 +27,9 @@ RDEPEND="
 	${COMMON_DEPEND}
 "
 
-src_prepare() {
-    # Search also for python2 binary.
-	sed -i -e '/for PYTHON_BASE/s/\<python\>/python2 python/' acinclude.m4 || die
-
-	eautoreconf
-}
-
 src_configure() {
+	[ "${PV}" = 9999 ] && eautoreconf
+
 	econf LIBNAME=$(get_libdir)
 }
 

@@ -29,12 +29,6 @@ RDEPEND="
 	dev-python/pyenchant
 "
 
-src_prepare() {
-	default
-
-	sed -i '1 s/python/python2/' rpmlint rpmdiff || die
-}
-
 src_install() {
 	default
 

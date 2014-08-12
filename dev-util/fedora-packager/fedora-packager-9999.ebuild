@@ -30,12 +30,8 @@ RDEPEND="
 "
 # dev-util/rpmlint
 
-src_prepare() {
-	sed -i "1 s/python/python2/" `find -type f`
-
-	eautoreconf
-}
-
 src_configure() {
+	[ "${PV}" = 9999 ] && eautoreconf
+
 	econf PYTHON=python2
 }

@@ -34,9 +34,6 @@ RDEPEND="
 
 src_prepare() {
 	epatch "${FILESDIR}"/fedora-config.patch
-
-	sed -i "1 s/python/python2/" `find -type f`
-	sed -i -e 's/^PYTHON=python$/PYTHON=python2/' koji/Makefile
 }
 
 src_install() {

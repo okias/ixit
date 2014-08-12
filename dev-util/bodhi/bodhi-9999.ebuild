@@ -29,10 +29,6 @@ RDEPEND="
 	${COMMON_DEPEND}
 "
 
-src_prepare() {
-	sed -i "1 s/python/python2/" bodhi/tools/client.py
-}
-
 src_compile() {
 	if use minimal; then
 		:
