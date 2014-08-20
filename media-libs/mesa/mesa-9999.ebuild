@@ -91,28 +91,28 @@ RDEPEND="
 	classic? ( app-admin/eselect-mesa )
 	gallium? ( app-admin/eselect-mesa )
 	>=app-admin/eselect-opengl-1.2.7
-	>=dev-libs/expat-2.1.0-r3[${MULTILIB_USEDEP}]
-	gbm? ( >=virtual/libudev-215[${MULTILIB_USEDEP}] )
-	dri3? ( >=virtual/libudev-215[${MULTILIB_USEDEP}] )
-	>=x11-libs/libX11-1.6.2[${MULTILIB_USEDEP}]
-	>=x11-libs/libxshmfence-1.1[${MULTILIB_USEDEP}]
-	>=x11-libs/libXdamage-1.1.4-r1[${MULTILIB_USEDEP}]
-	>=x11-libs/libXext-1.3.2[${MULTILIB_USEDEP}]
-	>=x11-libs/libXxf86vm-1.1.3[${MULTILIB_USEDEP}]
-	>=x11-libs/libxcb-1.9.3[${MULTILIB_USEDEP}]
+	>=dev-libs/expat-2.1.0-r3:=[${MULTILIB_USEDEP}]
+	gbm? ( >=virtual/libudev-215:=[${MULTILIB_USEDEP}] )
+	dri3? ( >=virtual/libudev-215:=[${MULTILIB_USEDEP}] )
+	>=x11-libs/libX11-1.6.2:=[${MULTILIB_USEDEP}]
+	>=x11-libs/libxshmfence-1.1:=[${MULTILIB_USEDEP}]
+	>=x11-libs/libXdamage-1.1.4-r1:=[${MULTILIB_USEDEP}]
+	>=x11-libs/libXext-1.3.2:=[${MULTILIB_USEDEP}]
+	>=x11-libs/libXxf86vm-1.1.3:=[${MULTILIB_USEDEP}]
+	>=x11-libs/libxcb-1.9.3:=[${MULTILIB_USEDEP}]
 	llvm? (
 		video_cards_radeonsi? ( || (
-			>=dev-libs/elfutils-0.155-r1[${MULTILIB_USEDEP}]
-			>=dev-libs/libelf-0.8.13-r2[${MULTILIB_USEDEP}]
+			>=dev-libs/elfutils-0.155-r1:=[${MULTILIB_USEDEP}]
+			>=dev-libs/libelf-0.8.13-r2:=[${MULTILIB_USEDEP}]
 			) )
 		video_cards_r600? ( || (
-			>=dev-libs/elfutils-0.155-r1[${MULTILIB_USEDEP}]
-			>=dev-libs/libelf-0.8.13-r2[${MULTILIB_USEDEP}]
+			>=dev-libs/elfutils-0.155-r1:=[${MULTILIB_USEDEP}]
+			>=dev-libs/libelf-0.8.13-r2:=[${MULTILIB_USEDEP}]
 			) )
 		!video_cards_r600? (
 			video_cards_radeon? ( || (
-				>=dev-libs/elfutils-0.155-r1[${MULTILIB_USEDEP}]
-				>=dev-libs/libelf-0.8.13-r2[${MULTILIB_USEDEP}]
+				>=dev-libs/elfutils-0.155-r1:=[${MULTILIB_USEDEP}]
+				>=dev-libs/libelf-0.8.13-r2:=[${MULTILIB_USEDEP}]
 				) )
 		)
 		>=sys-devel/llvm-3.3-r3[${MULTILIB_USEDEP}]
@@ -121,10 +121,10 @@ RDEPEND="
 				app-admin/eselect-opencl
 				dev-libs/libclc
 			)
-	openmax? ( >=media-libs/libomxil-bellagio-0.9.3[${MULTILIB_USEDEP}] )
-	vdpau? ( >=x11-libs/libvdpau-0.7[${MULTILIB_USEDEP}] )
-	wayland? ( >=dev-libs/wayland-1.2.0[${MULTILIB_USEDEP}] )
-	xvmc? ( >=x11-libs/libXvMC-1.0.8[${MULTILIB_USEDEP}] )
+	openmax? ( >=media-libs/libomxil-bellagio-0.9.3:=[${MULTILIB_USEDEP}] )
+	vdpau? ( >=x11-libs/libvdpau-0.7:=[${MULTILIB_USEDEP}] )
+	wayland? ( >=dev-libs/wayland-1.2.0:=[${MULTILIB_USEDEP}] )
+	xvmc? ( >=x11-libs/libXvMC-1.0.8:=[${MULTILIB_USEDEP}] )
 	${LIBDRM_DEPSTRING}[video_cards_freedreno?,video_cards_nouveau?,video_cards_vmware?,${MULTILIB_USEDEP}]
 "
 for card in ${INTEL_CARDS}; do
@@ -146,23 +146,23 @@ DEPEND="${RDEPEND}
 		video_cards_radeonsi? ( sys-devel/llvm[video_cards_radeon] )
 	)
 	opencl? (
-				>=sys-devel/llvm-3.3-r3[${MULTILIB_USEDEP}]
-				>=sys-devel/clang-3.3[${MULTILIB_USEDEP}]
+				>=sys-devel/llvm-3.3-r3:=[${MULTILIB_USEDEP}]
+				>=sys-devel/clang-3.3:=[${MULTILIB_USEDEP}]
 				>=sys-devel/gcc-4.6
 	)
 	sys-devel/bison
 	sys-devel/flex
 	sys-devel/gettext
 	virtual/pkgconfig
-	>=x11-proto/dri2proto-2.8-r1[${MULTILIB_USEDEP}]
+	>=x11-proto/dri2proto-2.8-r1:=[${MULTILIB_USEDEP}]
 	dri3? (
-		>=x11-proto/dri3proto-1.0[${MULTILIB_USEDEP}]
-		>=x11-proto/presentproto-1.0[${MULTILIB_USEDEP}]
+		>=x11-proto/dri3proto-1.0:=[${MULTILIB_USEDEP}]
+		>=x11-proto/presentproto-1.0:=[${MULTILIB_USEDEP}]
 	)
-	>=x11-proto/glproto-1.4.16-r1[${MULTILIB_USEDEP}]
-	>=x11-proto/xextproto-7.2.1-r1[${MULTILIB_USEDEP}]
-	>=x11-proto/xf86driproto-2.1.1-r1[${MULTILIB_USEDEP}]
-	>=x11-proto/xf86vidmodeproto-2.3.1-r1[${MULTILIB_USEDEP}]
+	>=x11-proto/glproto-1.4.16-r1:=[${MULTILIB_USEDEP}]
+	>=x11-proto/xextproto-7.2.1-r1:=[${MULTILIB_USEDEP}]
+	>=x11-proto/xf86driproto-2.1.1-r1:=[${MULTILIB_USEDEP}]
+	>=x11-proto/xf86vidmodeproto-2.3.1-r1:=[${MULTILIB_USEDEP}]
 "
 
 S="${WORKDIR}/${MY_P}"
