@@ -23,7 +23,7 @@ fi
 
 NINE_REV="909ab21"
 NINE_PATCH="wine-1.7.26-d3d9-${NINE_REV}.patch"
-NINE3_REV="f229ac9"
+NINE3_REV="2d82e2d"
 NINE3_PATCH="wine-1.7.27-d3d9_dri3-${NINE3_REV}.patch"
 
 GV="2.24"
