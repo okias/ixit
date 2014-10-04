@@ -28,6 +28,8 @@ DEPEND="${RDEPEND}
 	systemd? ( virtual/pkgconfig )
 	test? ( dev-util/dejagnu )"
 
+REQUIRED_USE="modern-top? ( ncurses )"
+
 S=${WORKDIR}/${PN}-ng-${PV}
 
 src_prepare() {
