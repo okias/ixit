@@ -23,13 +23,13 @@ fi
 
 NINE_REV="909ab21"
 NINE_PATCH="wine-1.7.26-d3d9-${NINE_REV}.patch"
-NINE3_REV="2d82e2d"
-NINE3_PATCH="wine-1.7.27-d3d9_dri3-${NINE3_REV}.patch"
+NINE3_REV="d2395b8"
+NINE3_PATCH="wine-1.7.28-d3d9_dri3-${NINE3_REV}.patch"
 
 GV="2.24"
 MV="4.5.2"
-COMPHOLIOV="1.7.26"
-COMPHOLIO_PATCHES="wine-compholio-${COMPHOLIOV}"
+COMPHOLIOV="1.7.28"
+COMPHOLIO_PATCHES="wine-staging-${COMPHOLIOV}"
 DESCRIPTION="Free implementation of Windows(tm) on Unix"
 HOMEPAGE="http://www.winehq.org/"
 SRC_URI="${SRC_URI}
