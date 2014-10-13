@@ -21,10 +21,8 @@ else
 	S=${WORKDIR}/${MY_P}
 fi
 
-NINE_REV="909ab21"
-NINE_PATCH="wine-1.7.26-d3d9-${NINE_REV}.patch"
-NINE3_REV="d2395b8"
-NINE3_PATCH="wine-1.7.28-d3d9_dri3-${NINE3_REV}.patch"
+NINE_REV="d2395b8"
+NINE_PATCH="wine-1.7.28-d3d9_dri3-${NINE_REV}.patch"
 
 GV="2.24"
 MV="4.5.2"
@@ -35,7 +33,6 @@ HOMEPAGE="http://www.winehq.org/"
 SRC_URI="${SRC_URI}
 	nine? (
 		http://download.ixit.cz/d3d9/${NINE_PATCH}
-		dri3? ( http://download.ixit.cz/d3d9/${NINE3_PATCH} )
 	)
 	gecko? (
 		abi_x86_32? ( mirror://sourceforge/${PN}/Wine%20Gecko/${GV}/wine_gecko-${GV}-x86.msi )
@@ -47,7 +44,7 @@ SRC_URI="${SRC_URI}
 
 LICENSE="LGPL-2.1"
 SLOT="0"
-IUSE="+abi_x86_32 +abi_x86_64 +alsa capi cups custom-cflags dri3 dos elibc_glibc +fontconfig +gecko gphoto2 gsm gstreamer +jpeg lcms ldap +mono mp3 ncurses netapi nls odbc openal opencl +opengl osmesa oss +perl pipelight +png +prelink pulseaudio +realtime +run-exes samba scanner selinux +ssl test +threads +truetype +udisks v4l +X xcomposite xinerama +xml nine"
+IUSE="+abi_x86_32 +abi_x86_64 +alsa capi cups custom-cflags dos elibc_glibc +fontconfig +gecko gphoto2 gsm gstreamer +jpeg lcms ldap +mono mp3 ncurses netapi nls odbc openal opencl +opengl osmesa oss +perl pipelight +png +prelink pulseaudio +realtime +run-exes samba scanner selinux +ssl test +threads +truetype +udisks v4l +X xcomposite xinerama +xml nine"
 REQUIRED_USE="|| ( abi_x86_32 abi_x86_64 )
 	test? ( abi_x86_32 )
 	elibc_glibc? ( threads )
@@ -132,8 +129,7 @@ COMMON_DEPEND="
 				app-emulation/emul-linux-x86-sdl[development,-abi_x86_32(-)]
 				>=media-libs/openal-1.15.1[abi_x86_32(-)]
 			) )
-			dri3? ( media-libs/mesa[dri3] )
-			nine? ( media-libs/mesa[abi_x86_32] )
+			nine? ( media-libs/mesa[dri3,abi_x86_32] )
 			gstreamer? ( || (
 				app-emulation/emul-linux-x86-medialibs[development,-abi_x86_32(-)]
 				(
@@ -338,15 +334,9 @@ src_prepare() {
 		eend
 	fi
 
-	if use nine; then
-		use dri3 && PATCHES+=(
-			"${DISTDIR}/${NINE3_PATCH}"
-		)
-		!use dri3 && PATCHES+=(
-			"${DISTDIR}/${NINE_PATCH}"
-		)
-	fi
-
+	use nine && PATCHES+=(
+		"${DISTDIR}/${NINE_PATCH}"
+	)
 
 	autotools-utils_src_prepare
 
