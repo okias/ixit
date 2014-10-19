@@ -49,7 +49,7 @@ for card in ${VIDEO_CARDS}; do
 done
 
 IUSE="${IUSE_VIDEO_CARDS}
-	bindist +classic debug +dri3 +egl +gallium gbm gles1 gles2 +llvm +nptl nine
+	bindist +classic debug +dri3 +egl +gallium +gbm gles1 gles2 +llvm +nptl nine
 	opencl openvg osmesa pax_kernel openmax pic r600-llvm-compiler selinux
 	vaapi vdpau wayland xvmc xa kernel_FreeBSD"
 
@@ -287,7 +287,6 @@ multilib_src_configure() {
 		if use opencl; then
 			myconf+="
 				$(use_enable opencl)
-				--with-opencl-libdir="${EPREFIX}/usr/$(get_libdir)/OpenCL/vendors/mesa"
 				--with-clang-libdir="${EPREFIX}/usr/lib"
 				"
 		fi
