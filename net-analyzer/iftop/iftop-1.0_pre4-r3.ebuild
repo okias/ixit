@@ -25,12 +25,15 @@ DEPEND="
 S="${WORKDIR}"/${P/_/}
 
 src_prepare() {
-	epatch "${FILESDIR}"/${P}-tinfo.patch
+	epatch \
+		"${FILESDIR}"/${P}-configure.ac.patch \
+		"${FILESDIR}"/${P}-Makefile.am.patch \
+		"${FILESDIR}"/${P}-tsent-set-but-not-used.patch
+
 	use colors && epatch "${FILESDIR}"/${PN}-1.0_pre3-colors.patch
 
 	# bug 490168
 	cat "${FILESDIR}"/ax_pthread.m4 >> "${S}"/acinclude.m4 || die
-	epatch "${FILESDIR}"/${P}-pthread.patch
 
 	eautoreconf
 }
