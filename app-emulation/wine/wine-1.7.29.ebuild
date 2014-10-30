@@ -26,7 +26,7 @@ NINE_PATCH="wine-1.7.29-d3d9-${NINE_REV}.patch"
 
 GV="2.24"
 MV="4.5.2"
-COMPHOLIOV="1.7.28"
+COMPHOLIOV="1.7.29"
 COMPHOLIO_PATCHES="wine-staging-${COMPHOLIOV}"
 DESCRIPTION="Free implementation of Windows(tm) on Unix"
 HOMEPAGE="http://www.winehq.org/"
