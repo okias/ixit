@@ -21,8 +21,8 @@ else
 	S=${WORKDIR}/${MY_P}
 fi
 
-NINE_REV="053373c"
-NINE_PATCH="wine-1.7.29-d3d9-${NINE_REV}.patch"
+NINE_REV="86f195e"
+NINE_PATCH="wine-1.7.30-d3d9-${NINE_REV}.patch"
 
 GV="2.24"
 MV="4.5.2"
