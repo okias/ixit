@@ -16,17 +16,15 @@ SLOT="0"
 KEYWORDS=""
 IUSE="alsa coreaudio debug neon oss portaudio pulseaudio sse sse2 sse4_1 wave"
 
-RDEPEND="alsa? ( media-libs/alsa-lib[${MULTILIB_USEDEP}] )
-	portaudio? ( >=media-libs/portaudio-19_pre[${MULTILIB_USEDEP}] )
-	pulseaudio? ( media-sound/pulseaudio[${MULTILIB_USEDEP}] )
+RDEPEND="alsa? ( >=media-libs/alsa-lib-1.0.27.2[${MULTILIB_USEDEP}] )
+	portaudio? ( >=media-libs/portaudio-19_pre20111121-r1[${MULTILIB_USEDEP}] )
+	pulseaudio? ( >=media-sound/pulseaudio-2.1-r1[${MULTILIB_USEDEP}] )
 	abi_x86_32? (
 		!<app-emulation/emul-linux-x86-sdl-20131008-r1
 		!app-emulation/emul-linux-x86-sdl[-abi_x86_32(-)]
 	)"
 DEPEND="${RDEPEND}
 	oss? ( virtual/os-headers )"
-
-#S=${WORKDIR}/${MY_P}
 
 DOCS="alsoftrc.sample env-vars.txt hrtf.txt README"
 
