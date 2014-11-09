@@ -9,7 +9,7 @@ inherit cmake-multilib eutils python-single-r1 vcs-snapshot
 
 DESCRIPTION="A tool for tracing, analyzing, and debugging graphics APIs"
 HOMEPAGE="https://github.com/apitrace/apitrace"
-REV="3691614d0045f7968addce45d4140fb360c3ceaf"
+REV="fb235ffea9eeba60b242ac334c44a853c6c5f365"
 SRC_URI="https://github.com/${PN}/${PN}/archive/${REV}.zip -> ${P}.zip"
 
 LICENSE="MIT"
@@ -77,7 +77,7 @@ src_install() {
 	dosym glxtrace.so /usr/$(get_libdir)/${PN}/wrappers/libGL.so.1
 	dosym glxtrace.so /usr/$(get_libdir)/${PN}/wrappers/libGL.so.1.2
 
-	dodoc {BUGS,DEVELOPMENT,NEWS,README,TODO}.markdown
+	dodoc {BUGS,FORMAT,HACKING,NEWS,README,TODO}.markdown
 
 	exeinto /usr/$(get_libdir)/${PN}/scripts
 	doexe $(find scripts -type f -executable)
