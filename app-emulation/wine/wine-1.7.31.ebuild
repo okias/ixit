@@ -21,17 +21,17 @@ else
 	S=${WORKDIR}/${MY_P}
 fi
 
-NINE_REV="86f195e"
-NINE_PATCH="wine-1.7.30-d3d9-${NINE_REV}.patch"
+NINE_REV="7fc278e"
+NINE_PATCH="wine-1.7.31-d3d9-${NINE_REV}.patch"
 
 GV="2.24"
 MV="4.5.2"
-COMPHOLIOV="1.7.29"
+COMPHOLIOV="1.7.31"
 COMPHOLIO_PATCHES="wine-staging-${COMPHOLIOV}"
 DESCRIPTION="Free implementation of Windows(tm) on Unix"
 HOMEPAGE="http://www.winehq.org/"
 SRC_URI="${SRC_URI}
-	nine? (
+	d3d9? (
 		http://download.ixit.cz/d3d9/${NINE_PATCH}
 	)
 	gecko? (
@@ -44,7 +44,7 @@ SRC_URI="${SRC_URI}
 
 LICENSE="LGPL-2.1"
 SLOT="0"
-IUSE="+abi_x86_32 +abi_x86_64 +alsa capi cups custom-cflags dos elibc_glibc +fontconfig +gecko gphoto2 gsm gstreamer +jpeg lcms ldap +mono mp3 ncurses netapi nls odbc openal opencl +opengl osmesa oss +perl pipelight +png +prelink pulseaudio +realtime +run-exes samba scanner selinux +ssl test +threads +truetype +udisks v4l +X xcomposite xinerama +xml nine"
+IUSE="+abi_x86_32 +abi_x86_64 +alsa capi cups custom-cflags dos elibc_glibc +fontconfig +gecko gphoto2 gsm gstreamer +jpeg lcms ldap +mono mp3 ncurses netapi nls odbc openal opencl +opengl osmesa oss +perl pipelight +png +prelink pulseaudio +realtime +run-exes samba scanner selinux +ssl test +threads +truetype +udisks v4l +X xcomposite xinerama +xml d3d9"
 REQUIRED_USE="|| ( abi_x86_32 abi_x86_64 )
 	test? ( abi_x86_32 )
 	elibc_glibc? ( threads )
@@ -88,7 +88,7 @@ NATIVE_DEPEND="
 	mp3? ( >=media-sound/mpg123-1.5.0 )
 	netapi? ( net-fs/samba[netapi(+)] )
 	nls? ( sys-devel/gettext )
-	nine? ( media-libs/mesa[nine] )
+	d3d9? ( media-libs/mesa[d3d9] )
 	odbc? ( dev-db/unixODBC:= )
 	osmesa? ( media-libs/mesa[osmesa] )
 	pipelight? ( sys-apps/attr )
@@ -129,7 +129,7 @@ COMMON_DEPEND="
 				app-emulation/emul-linux-x86-sdl[development,-abi_x86_32(-)]
 				>=media-libs/openal-1.15.1[abi_x86_32(-)]
 			) )
-			nine? ( media-libs/mesa[dri3,abi_x86_32] )
+			d3d9? ( media-libs/mesa[dri3,abi_x86_32] )
 			gstreamer? ( || (
 				app-emulation/emul-linux-x86-medialibs[development,-abi_x86_32(-)]
 				(
@@ -334,7 +334,7 @@ src_prepare() {
 		eend
 	fi
 
-	use nine && PATCHES+=(
+	use d3d9 && PATCHES+=(
 		"${DISTDIR}/${NINE_PATCH}"
 	)
 
@@ -366,7 +366,7 @@ multilib_src_configure() {
 		$(use_with capi)
 		$(use_with lcms cms)
 		$(use_with cups)
-		$(use_with nine d3dadapter9)
+		$(use_with d3d9 d3dadapter9)
 		$(use_with ncurses curses)
 		$(use_with udisks dbus)
 		$(use_with fontconfig)
