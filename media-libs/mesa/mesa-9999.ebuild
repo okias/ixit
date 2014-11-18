@@ -49,7 +49,7 @@ for card in ${VIDEO_CARDS}; do
 done
 
 IUSE="${IUSE_VIDEO_CARDS}
-	bindist +classic debug +dri3 +egl +gallium +gbm gles1 gles2 +llvm +nptl nine
+	bindist +classic debug +dri3 +egl +gallium +gbm gles1 gles2 +llvm +nptl d3d9
 	opencl openvg osmesa pax_kernel openmax pic r600-llvm-compiler selinux
 	vaapi vdpau wayland xvmc xa kernel_FreeBSD"
 
@@ -60,7 +60,7 @@ REQUIRED_USE="
 		gallium
 	)
 	openmax? ( gallium )
-	nine? ( gallium dri3 )
+	d3d9? ( gallium dri3 )
 	gles1?  ( egl )
 	gles2?  ( egl )
 	r600-llvm-compiler? ( gallium llvm || ( video_cards_r600 video_cards_radeonsi video_cards_radeon ) )
@@ -255,14 +255,13 @@ multilib_src_configure() {
 		myconf+="
 			$(use_enable llvm gallium-llvm)
 			$(use_enable openvg)
-			$(use_enable openvg gallium-egl)
 			$(use_enable openmax omx)
 			$(use_enable r600-llvm-compiler)
 			$(use_enable vaapi va)
 			$(use_enable vdpau)
 			$(use_enable xa)
 			$(use_enable xvmc)
-			$(use_enable nine)
+			$(use_enable d3d9 nine)
 		"
 		gallium_enable swrast
 		gallium_enable video_cards_vmware svga
