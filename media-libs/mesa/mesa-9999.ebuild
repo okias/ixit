@@ -50,13 +50,12 @@ done
 
 IUSE="${IUSE_VIDEO_CARDS}
 	bindist +classic d3d9 debug +dri3 +egl +gallium +gbm gles1 gles2 +llvm
-	+nptl opencl openvg osmesa pax_kernel openmax pic r600-llvm-compiler selinux
+	+nptl opencl osmesa pax_kernel openmax pic r600-llvm-compiler selinux
 	vaapi vdpau wayland xvmc xa kernel_FreeBSD"
 
 REQUIRED_USE="
 	d3d9? ( gallium dri3 )
 	llvm?   ( gallium )
-	openvg? ( egl gallium )
 	opencl? (
 		gallium
 	)
@@ -255,7 +254,6 @@ multilib_src_configure() {
 		myconf+="
 			$(use_enable d3d9 nine)
 			$(use_enable llvm gallium-llvm)
-			$(use_enable openvg)
 			$(use_enable openmax omx)
 			$(use_enable r600-llvm-compiler)
 			$(use_enable vaapi va)
