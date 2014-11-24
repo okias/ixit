@@ -21,7 +21,7 @@ else
 	S=${WORKDIR}/${MY_P}
 fi
 
-NINE_REV="2fbb85d"
+NINE_REV="d6d23a8"
 NINE_PATCH="wine-1.7.31-d3d9-${NINE_REV}.patch"
 
 GV="2.24"
@@ -366,7 +366,7 @@ multilib_src_configure() {
 		$(use_with capi)
 		$(use_with lcms cms)
 		$(use_with cups)
-		$(use_with d3d9 d3dadapter9)
+		$(use_with d3d9 d3dadapter)
 		$(use_with ncurses curses)
 		$(use_with udisks dbus)
 		$(use_with fontconfig)
