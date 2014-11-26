@@ -8,6 +8,7 @@ inherit git-r3 cmake-utils
 DESCRIPTION="A general purpose library for the OpenWRT project."
 HOMEPAGE="http://wiki.openwrt.org/"
 EGIT_REPO_URI="git://nbd.name/luci2/${PN}.git"
+
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS=""
@@ -20,15 +21,11 @@ DEPEND="
 "
 
 src_prepare() {
-	echo 'INCLUDE_DIRECTORIES(/usr/include/libnl3)' >> CMakeLists.txt
 	sed -i 's/-Werror //' CMakeLists.txt
+	echo 'INCLUDE_DIRECTORIES(/usr/include/libnl3)' >> CMakeLists.txt
 }
 
 src_configure() {
-	local mycmakeargs=(
-		-DBUILD_LUA=OFF
-	)
-
 	cmake-utils_src_configure
 }
 

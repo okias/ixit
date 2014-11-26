@@ -8,23 +8,30 @@ inherit git-r3 cmake-utils
 DESCRIPTION="A general purpose library for the OpenWRT project."
 HOMEPAGE="http://wiki.openwrt.org/"
 EGIT_REPO_URI="git://nbd.name/${PN}.git"
+
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS=""
-IUSE=""
+IUSE="lua"
 
-DEPEND="
+COMMON_DEPEND="
 	dev-libs/libubox
+	lua? ( dev-lang/lua )
+"
+DEPEND="
+	${COMMON_DEPEND}
+"
+RDEPEND="
+	${COMMON_DEPEND}
 "
 
 src_prepare() {
-	default
 	sed -i 's/-Werror //' CMakeLists.txt
 }
 
 src_configure() {
 	local mycmakeargs=(
-		-DBUILD_LUA=OFF
+		-DBUILD_LUA=$(usex lua ON OFF)
 	)
 
 	cmake-utils_src_configure

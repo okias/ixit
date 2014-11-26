@@ -8,31 +8,31 @@ inherit git-r3 cmake-utils
 DESCRIPTION="A general purpose library for the OpenWRT project."
 HOMEPAGE="http://wiki.openwrt.org/"
 EGIT_REPO_URI="git://nbd.name/luci2/${PN}.git"
+
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS=""
-IUSE="lua"
+IUSE=""
 
 COMMON_DEPEND="
-	lua? ( dev-lang/lua )
+	dev-libs/json-c
+	dev-libs/libubox
+	sys-apps/ubus
 "
 DEPEND="
-	$COMMON_DEPEND
-"
-RDEPEND="
-	$COMMON_DEPEND
+	${COMMON_DEPEND}
 "
 
 src_prepare() {
 	sed -i 's/-Werror //' CMakeLists.txt
-	sed -i 's|\<json/json.h\>|json-c/json.h|' jshn.c blobmsg_json.h
-	echo 'INCLUDE_DIRECTORIES(/usr/include/libnl3)' >> CMakeLists.txt
 }
 
 src_configure() {
-	local mycmakeargs=(
-		-DBUILD_LUA=$(usex lua ON OFF)
-	)
-
 	cmake-utils_src_configure
+}
+
+src_install() {
+	cmake-utils_src_install
+
+	install -d "${D}/etc/config"
 }
