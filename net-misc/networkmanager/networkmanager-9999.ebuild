@@ -15,7 +15,7 @@ LICENSE="GPL-2"
 SLOT="0"
 IUSE="avahi bluetooth connection-sharing +consolekit +dhclient dhcpcd gnutls
 +introspection modemmanager +nss +openrc +ppp resolvconf systemd test vala
-+wext"
++wext doc"
 KEYWORDS=""
 REQUIRED_USE="
 	modemmanager? ( ppp )
@@ -55,8 +55,10 @@ RDEPEND="${COMMON_DEPEND}
 "
 DEPEND="${COMMON_DEPEND}
 	openrc? ( dev-util/systemd2openrc )
-	dev-util/gtk-doc
-	dev-util/gtk-doc-am
+	doc? (
+		dev-perl/yaml
+		dev-util/gtk-doc
+		dev-util/gtk-doc-am )
 	>=dev-util/intltool-0.40
 	>=sys-devel/gettext-0.17
 	>=sys-kernel/linux-headers-2.6.29
@@ -77,25 +79,25 @@ src_configure() {
 
 	econf \
 		--disable-more-warnings \
-		--enable-gtk-doc \
 		--localstatedir=/var \
 		--with-dbus-sys-dir=/etc/dbus-1/system.d \
 		--with-udev-dir="$(get_udevdir)" \
 		--with-iptables=/sbin/iptables \
 		--enable-concheck \
 		--with-crypto=$(usex nss nss gnutls) \
-		$(use_with systemd systemd-logind) \
-		$(use_with consolekit) \
 		--with-suspend-resume=$(usex systemd systemd upower) \
 		--disable-wimax \
 		$(use_enable introspection) \
+		$(use_enable vala) \
 		$(use_enable ppp) \
+		$(use_enable test tests) \
+		$(use_enable doc gtk-doc) \
+		$(use_with systemd systemd-logind) \
+		$(use_with consolekit) \
 		$(use_with dhclient) \
 		$(use_with dhcpcd) \
 		$(use_with modemmanager modem-manager-1) \
 		$(use_with resolvconf) \
-		$(use_enable test tests) \
-		$(use_enable vala) \
 		$(use_with wext) \
 		"$(systemd_with_unitdir)"
 }
