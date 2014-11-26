@@ -30,8 +30,10 @@ RDEPEND="
 "
 # dev-util/rpmlint
 
-src_configure() {
+src_prepare() {
 	[ "${PV}" = 9999 ] && eautoreconf
+}
 
+src_configure() {
 	econf PYTHON=python2
 }

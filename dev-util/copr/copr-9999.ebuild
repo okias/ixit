@@ -2,23 +2,22 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI="5"
+EAPI=5
+PYTHON_COMPAT=( python2_7 python3_3 )
 
-inherit autotools eutils
+inherit eutils distutils-r1
 [ "${PV}" = 9999 ] && inherit git-r3
 
-DESCRIPTION="Python extension module for Kerberos 5"
-HOMEPAGE="http://fedorahosted.org/python-krbV/"
+DESCRIPTION="An alternative build system for the Fedora project"
+HOMEPAGE="https://fedorahosted.org/copr/"
 EGIT_REPO_URI="https://git.fedorahosted.org/git/${PN}"
 [ "${PV}" = 9999 ] || SRC_URI="https://fedorahosted.org/releases/${PN:0:1}/${PN:1:1}/${PN}/${P}.tar.bz2"
 
-LICENSE="LGPL-2"
+LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS=""
-IUSE=""
 
 COMMON_DEPEND="
-	virtual/krb5
 "
 DEPEND="
 	${COMMON_DEPEND}
@@ -26,20 +25,3 @@ DEPEND="
 RDEPEND="
 	${COMMON_DEPEND}
 "
-
-src_prepare() {
-	[ "${PV}" = 9999 ] && eautoreconf
-}
-
-src_configure() {
-	econf LIBNAME=$(get_libdir)
-}
-
-src_install()
-{
-	default
-
-	dodoc README krbV-code-snippets.py
-
-	find "${ED}" -name '*.la' -delete
-}

@@ -4,6 +4,7 @@
 
 EAPI=5
 
+#inherit python-r1
 [ "${PV}" = 9999 ] && inherit git-r3 autotools
 
 DESCRIPTION="Collection of rpm packaging related utilities"
@@ -13,7 +14,6 @@ EGIT_REPO_URI="https://git.fedorahosted.org/git/${PN}"
 
 LICENSE="GPL-2"
 SLOT="0"
-#KEYWORDS="~amd64 ~x86 ~amd64-linux ~x86-linux"
 IUSE="emacs"
 
 COMMON_DEPEND="
@@ -31,8 +31,22 @@ RDEPEND="
 	${COMMON_DEPEND}
 "
 
-src_configure() {
-	[ "${PV}" = 9999 ] && eautoreconf
+#src_prepare() {
+#	python_copy_sources
+#}
 
-	default
+src_prepare() {
+	[ "${PV}" = 9999 ] && eautoreconf
 }
+
+#src_configure() {
+#	python_foreach_impl run_in_build_dir econf
+#}
+
+#src_compile() {
+#	python_foreach_impl run_in_build_dir make
+#}
+#
+#src_compile() {
+#	python_foreach_impl run_in_build_dir make install DESTDIR=${ED}
+#}
