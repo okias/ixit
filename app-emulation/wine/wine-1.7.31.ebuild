@@ -24,7 +24,7 @@ fi
 NINE_REV="d6d23a8"
 NINE_PATCH="wine-1.7.31-d3d9-${NINE_REV}.patch"
 
-GV="2.24"
+GV="2.34"
 MV="4.5.2"
 COMPHOLIOV="1.7.31"
 COMPHOLIO_PATCHES="wine-staging-${COMPHOLIOV}"
