@@ -10,11 +10,11 @@ inherit eutils
 DESCRIPTION="Enlightenment DR19 window manager"
 HOMEPAGE="http://www.enlightenment.org/"
 EGIT_REPO_URI="git://git.enlightenment.org/core/${PN}.git"
-[ "${PV}" = 9999 ] || SRC_URI="http://download.enlightenment.org/rel/apps/${PN}/${P/_/-}.tar.bz2"
+[ "${PV}" = 9999 ] || SRC_URI="http://download.enlightenment.org/rel/apps/${PN}/${P/_/-}.tar.xz"
 
 LICENSE="BSD-2"
 [ "${PV}" = 9999 ] || KEYWORDS="~amd64 ~x86"
-SLOT="0.17/0.19"
+SLOT="0.17/0.20"
 
 E_MODULES_DEFAULT=(
 	conf-applications conf-bindings conf-dialogs conf-display conf-interaction
@@ -62,7 +62,6 @@ src_prepare() {
 
 src_configure() {
 	local config=(
-		--disable-device-hal
 		--disable-simple-x11
 		--disable-wayland-only
 
