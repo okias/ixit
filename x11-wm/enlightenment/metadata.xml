@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer>
+		<email>pavlix@pavlix.net</email>
+		<name>Pavel Šimerda</name>
+	</maintainer>
+	<longdescription lang="en">
+		Enlightenment is a lightweight desktop environment.
+	</longdescription>
+</pkgmetadata>
