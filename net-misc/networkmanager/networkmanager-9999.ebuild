@@ -5,18 +5,26 @@ EAPI="5"
 VALA_MIN_API_VERSION="0.18"
 VALA_USE_DEPEND="vapigen"
 
-inherit git-r3 bash-completion-r1 systemd user toolchain-funcs vala virtualx udev eutils
+inherit versionator bash-completion-r1 systemd user toolchain-funcs vala virtualx udev eutils
+[ ${PV} == 9999 ] && inherit git-r3 autotools
 
 DESCRIPTION="A network configuration daemon"
 HOMEPAGE="http://www.gnome.org/projects/NetworkManager/"
 EGIT_REPO_URI="http://anongit.freedesktop.org/git/NetworkManager/NetworkManager.git"
 
+if [ ${PV} != 9999 ]; then
+	U_PN=NetworkManager
+	U_P=${U_PN}-${PV}
+	SRC_URI="https://download.gnome.org/sources/${U_PN}/$(get_version_component_range -2)/${U_P}.tar.xz"
+	KEYWORDS="~x86 ~amd64"
+	S="${WORKDIR}/${U_P}"
+fi
+
 LICENSE="GPL-2"
 SLOT="0"
-IUSE="avahi bluetooth connection-sharing +consolekit +dhclient dhcpcd gnutls
+IUSE="avahi bluetooth +connection-sharing +consolekit +dhclient dhcpcd gnutls
 +introspection modemmanager +nss +openrc +ppp resolvconf systemd test vala
 +wext doc"
-KEYWORDS=""
 REQUIRED_USE="
 	modemmanager? ( ppp )
 	^^ ( nss gnutls )
