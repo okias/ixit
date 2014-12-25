@@ -35,7 +35,7 @@ COMMON_DEPEND="
 	>=dev-libs/dbus-glib-0.94
 	>=dev-libs/glib-2.30
 	>=dev-libs/libnl-3.2.7:3=
-	dev-libs/libndp
+	net-libs/libndp
 	>=sys-auth/polkit-0.106
 	>=net-libs/libsoup-2.26:2.4=
 	>=net-wireless/wpa_supplicant-0.7.3-r3[dbus]
