@@ -5,8 +5,16 @@ EAPI="5"
 VALA_MIN_API_VERSION="0.18"
 VALA_USE_DEPEND="vapigen"
 
-inherit versionator bash-completion-r1 systemd user toolchain-funcs vala virtualx udev eutils
-[ ${PV} == 9999 ] && inherit git-r3 autotools
+inherit versionator bash-completion-r1 systemd user toolchain-funcs vala virtualx udev eutils autotools
+
+echo $(get_version_component_range $(get_version_component_count))
+if [ $(get_version_component_range $(get_version_component_count)) = 9999 ]; then
+	echo $(get_version_component_range -$(get_last_version_component_index))
+fi
+
+[ ${PV} == 9999 ] && inherit git-r3
+
+env | grep -i GIT
 
 DESCRIPTION="A network configuration daemon"
 HOMEPAGE="http://www.gnome.org/projects/NetworkManager/"
@@ -22,13 +30,15 @@ fi
 
 LICENSE="GPL-2"
 SLOT="0"
-IUSE="avahi bluetooth +connection-sharing +consolekit +dhclient dhcpcd gnutls
-+introspection modemmanager +nss +openrc +ppp resolvconf systemd test vala
+IUSE="avahi bluetooth bluez5 +connection-sharing +consolekit +dhclient dhcpcd gnutls
++introspection logind modemmanager +nss +openrc +polkit +polkit-users +ppp resolvconf systemd test upower vala
 +wext doc"
 REQUIRED_USE="
 	modemmanager? ( ppp )
 	^^ ( nss gnutls )
 	^^ ( dhclient dhcpcd )
+	systemd? ( !upower )
+	polkit-users? ( polkit )
 "
 COMMON_DEPEND="
 	>=sys-apps/dbus-1.2
@@ -36,15 +46,13 @@ COMMON_DEPEND="
 	>=dev-libs/glib-2.30
 	>=dev-libs/libnl-3.2.7:3=
 	net-libs/libndp
-	>=sys-auth/polkit-0.106
 	>=net-libs/libsoup-2.26:2.4=
 	>=net-wireless/wpa_supplicant-0.7.3-r3[dbus]
 	>=virtual/udev-165
+	polkit? ( >=sys-auth/polkit-0.106 )
 	bluetooth? ( >=net-wireless/bluez-4.82 )
+	bluez5? ( >=net-wireless/bluez-5 )
 	avahi? ( net-dns/avahi:=[autoipd] )
-	connection-sharing? (
-		net-dns/dnsmasq
-		net-firewall/iptables )
 	gnutls? (
 		dev-libs/libgcrypt:=
 		net-libs/gnutls:= )
@@ -56,10 +64,12 @@ COMMON_DEPEND="
 	ppp? ( >=net-dialup/ppp-2.4.5[ipv6] )
 	resolvconf? ( net-dns/openresolv )
 	systemd? ( >=sys-apps/systemd-200 )
-	!systemd? ( sys-power/upower )
+	logind? ( >=sys-apps/systemd-200 )
+	upower? ( sys-power/upower )
 "
 RDEPEND="${COMMON_DEPEND}
 	consolekit? ( sys-auth/consolekit )
+	connection-sharing? ( net-dns/dnsmasq net-firewall/iptables )
 "
 DEPEND="${COMMON_DEPEND}
 	openrc? ( dev-util/systemd2rc )
@@ -79,12 +89,13 @@ DEPEND="${COMMON_DEPEND}
 "
 
 src_prepare() {
+	EPATCH_SOURCE=${FILESDIR}/patches-${PV} epatch
+
 	use vala && vala_src_prepare
+	eautoreconf
 }
 
 src_configure() {
-	NOCONFIGURE=yes ./autogen.sh
-
 	econf \
 		--disable-more-warnings \
 		--localstatedir=/var \
@@ -93,14 +104,18 @@ src_configure() {
 		--with-iptables=/sbin/iptables \
 		--enable-concheck \
 		--with-crypto=$(usex nss nss gnutls) \
-		--with-suspend-resume=$(usex systemd systemd upower) \
 		--disable-wimax \
 		$(use_enable introspection) \
 		$(use_enable vala) \
 		$(use_enable ppp) \
 		$(use_enable test tests) \
 		$(use_enable doc gtk-doc) \
-		$(use_with systemd systemd-logind) \
+		$(use_enable bluez5 bluez5-dun) \
+		$(use_enable polkit) \
+		$(use_enable polkit-users modify-system) \
+		$(use systemd && echo --with-suspend-resume=systemd) \
+		$(use upower && echo --with-suspend-resume=upower) \
+		$(use_with logind systemd-logind) \
 		$(use_with consolekit) \
 		$(use_with dhclient) \
 		$(use_with dhcpcd) \
@@ -144,8 +159,8 @@ src_install() {
 	chmod 0600 "${ED}"/etc/NetworkManager/system-connections/.keep* # bug #383765
 
 	# Allow users in plugdev group to modify system connections
-	insinto /usr/share/polkit-1/rules.d/
-	doins "${FILESDIR}/01-org.freedesktop.NetworkManager.settings.modify.system.rules"
+	#insinto /usr/share/polkit-1/rules.d/
+	#doins "${FILESDIR}/01-org.freedesktop.NetworkManager.settings.modify.system.rules"
 
 	# Remove useless .la files
 	prune_libtool_files --modules
