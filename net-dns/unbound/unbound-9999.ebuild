@@ -72,7 +72,8 @@ src_configure() {
 		--with-ldns="${EPREFIX}"/usr \
 		--with-libevent="${EPREFIX}"/usr \
 		--with-pidfile="${EPREFIX}"/var/run/unbound.pid \
-		--with-rootkey-file="${EPREFIX}"/etc/dnssec/root-anchors.txt
+		--with-rootkey-file="${EPREFIX}"/etc/dnssec/root-anchors.txt \
+		CAN_REFERENCE_MAIN=0
 
 		# http://unbound.nlnetlabs.nl/pipermail/unbound-users/2011-April/001801.html
 		# $(use_enable debug lock-checks) \
