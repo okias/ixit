@@ -1,0 +1,32 @@
+From 6d001d8af8efa6d28a0665a7e0a60450c06b4337 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Pavel=20=C5=A0imerda?= <psimerda@redhat.com>
+Date: Fri, 9 Jan 2015 16:36:26 +0100
+Subject: [PATCH 3/3] keyfile: use uuid as filename instead of id
+
+NetworkManager doesn't ensure that the connection name (aka ID) is used
+as the connection file name. As an example, changing the connection name
+doesn't lead to renaming the file.
+
+This change works around the lack of connection file name maintainance
+so that noone expects the connection file name to match the connection
+name.
+---
+ src/settings/plugins/keyfile/writer.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/settings/plugins/keyfile/writer.c b/src/settings/plugins/keyfile/writer.c
+index d342e3f..801d933 100644
+--- a/src/settings/plugins/keyfile/writer.c
++++ b/src/settings/plugins/keyfile/writer.c
+@@ -839,7 +839,7 @@ _internal_write_connection (NMConnection *connection,
+ 	if (existing_path != NULL) {
+ 		path = g_strdup (existing_path);
+ 	} else {
+-		filename = _writer_id_to_filename (id);
++		filename = g_strdup (nm_connection_get_uuid (connection));
+ 		path = g_build_filename (keyfile_dir, filename, NULL);
+ 	}
+ 
+-- 
+1.8.5.5
+
