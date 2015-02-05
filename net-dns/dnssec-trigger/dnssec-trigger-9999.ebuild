@@ -21,7 +21,7 @@ COMMON_DEPEND="
 "
 DEPEND="
 	${COMMON_DEPEND}
-	openrc? ( dev-util/systemd2openrc )
+	openrc? ( dev-util/systemd2rc )
 "
 RDEPEND="
 	${COMMON_DEPEND}
@@ -40,8 +40,8 @@ src_compile() {
 	# Build OpenRC initscripts
 	if use openrc; then
 		mkdir openrc || die
-		systemd2openrc dnssec-triggerd.service > openrc/dnssec-triggerd || die
-		systemd2openrc dnssec-triggerd-keygen.service > openrc/dnssec-triggerd-keygen || die
+		systemd2rc dnssec-triggerd.service > openrc/dnssec-triggerd || die
+		systemd2rc dnssec-triggerd-keygen.service > openrc/dnssec-triggerd-keygen || die
 	fi
 }
 

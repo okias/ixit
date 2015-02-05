@@ -62,7 +62,7 @@ RDEPEND="${COMMON_DEPEND}
 	consolekit? ( sys-auth/consolekit )
 "
 DEPEND="${COMMON_DEPEND}
-	openrc? ( dev-util/systemd2openrc )
+	openrc? ( dev-util/systemd2rc )
 	doc? (
 		dev-perl/yaml
 		dev-util/gtk-doc
@@ -115,9 +115,9 @@ src_compile() {
 
 	if use openrc; then
 		mkdir openrc || die
-		systemd2openrc data/NetworkManager.service --nodeps --pidfile /etc/NetworkManager/NetworkManager.pid > openrc/NetworkManager || die
-		systemd2openrc data/NetworkManager-dispatcher.service > openrc/NetworkManager-dispatcher || die
-		systemd2openrc data/NetworkManager-wait-online.service --nodeps > openrc/NetworkManager-wait-online || die
+		systemd2rc data/NetworkManager.service --nodeps --pidfile /etc/NetworkManager/NetworkManager.pid > openrc/NetworkManager || die
+		systemd2rc data/NetworkManager-dispatcher.service > openrc/NetworkManager-dispatcher || die
+		systemd2rc data/NetworkManager-wait-online.service --nodeps > openrc/NetworkManager-wait-online || die
 
 		echo -ne "\ndepend() {\n    need NetworkManager\n    provide net\n}\n" >> openrc/NetworkManager-wait-online
 	fi
