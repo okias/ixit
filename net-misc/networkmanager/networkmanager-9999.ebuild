@@ -14,8 +14,6 @@ fi
 
 [ ${PV} == 9999 ] && inherit git-r3
 
-env | grep -i GIT
-
 DESCRIPTION="A network configuration daemon"
 HOMEPAGE="http://www.gnome.org/projects/NetworkManager/"
 EGIT_REPO_URI="http://anongit.freedesktop.org/git/NetworkManager/NetworkManager.git"
