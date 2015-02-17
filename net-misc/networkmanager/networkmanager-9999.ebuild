@@ -73,10 +73,11 @@ RDEPEND="${COMMON_DEPEND}
 "
 DEPEND="${COMMON_DEPEND}
 	openrc? ( dev-util/systemd2rc )
-	doc? (
+	$([ ${PV} == 9999 ] || echo "doc? (")
 		dev-perl/yaml
 		dev-util/gtk-doc
-		dev-util/gtk-doc-am )
+		dev-util/gtk-doc-am
+	$([ ${PV} == 9999 ] || echo ")")
 	>=dev-util/intltool-0.40
 	>=sys-devel/gettext-0.17
 	>=sys-kernel/linux-headers-2.6.29
