@@ -18,7 +18,7 @@ EGIT_REPO_URI="git://git.gnome.org/network-manager-applet"
 LICENSE="GPL-2+"
 SLOT="0"
 KEYWORDS=" ~amd64 ~x86"
-IUSE="bluetooth gconf +indicator +introspection modemmanager"
+IUSE="bluetooth gconf +appindicator +introspection modemmanager"
 
 RDEPEND="
 	app-crypt/libsecret
@@ -61,6 +61,6 @@ src_configure() {
 		$(use_with bluetooth) \
 		$(use_enable gconf migration) \
 		$(use_enable introspection) \
-		$(use_enable indicator) \
+		$(use_with appindicator) \
 		$(use_with modemmanager modem-manager-1)
 }
