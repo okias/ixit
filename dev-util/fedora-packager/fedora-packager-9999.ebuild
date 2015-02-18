@@ -26,7 +26,6 @@ RDEPEND="
 	dev-util/mock
 	dev-util/rpmdevtools
 	net-misc/curl
-	virtual/python-argparse
 "
 # dev-util/rpmlint
 

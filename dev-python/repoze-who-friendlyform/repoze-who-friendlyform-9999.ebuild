@@ -22,7 +22,7 @@ IUSE=""
 
 COMMON_DEPEND="
 	dev-python/paste
-	net-zope/zope-interface
+	dev-python/zope-interface
 "
 DEPEND="
 	${RDEPEND}

@@ -23,7 +23,6 @@ COMMON_DEPEND="
 	dev-python/kitchen
 	dev-python/pycurl
 	dev-util/koji
-	virtual/python-argparse
 "
 DEPEND="
 	${COMMON_DEPEND}

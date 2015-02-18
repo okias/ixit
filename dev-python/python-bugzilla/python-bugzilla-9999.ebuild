@@ -19,5 +19,5 @@ IUSE=""
 
 DEPEND="
 	dev-python/setuptools
-	sys-apps/file[python]
+	|| ( dev-python/python-magic sys-apps/file[python] )
 "

@@ -25,7 +25,7 @@ DEPEND="
 "
 RDEPEND="
 	${COMMON_DEPEND}
-	sys-apps/file[python]
+	|| ( dev-python/python-magic sys-apps/file[python] )
 	dev-python/pyenchant
 "
 
