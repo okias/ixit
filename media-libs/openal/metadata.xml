@@ -2,7 +2,4 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 	<herd>sound</herd>
-	<use>
-		<flag name='wave'>Allow write output to a wav file instead of an audio device.</flag>
-	</use>
 </pkgmetadata>
