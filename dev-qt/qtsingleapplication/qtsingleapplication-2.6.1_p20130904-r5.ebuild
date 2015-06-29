@@ -66,6 +66,7 @@ src_configure() {
 			eqmake4
 		fi
 		if [[ ${MULTIBUILD_VARIANT} == qt5 ]]; then
+		sed -i -e "s/QtSolutions_SingleApplication-2.6/Qt5Solutions_SingleApplication-2.6/" common.pri || die
 			eqmake5
 		fi
 	}
