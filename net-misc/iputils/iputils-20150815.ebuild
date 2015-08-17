@@ -8,7 +8,7 @@ SRC_URI="https://www.github.com/${PN}/${PN}/archive/s${PV}.tar.gz -> ${P}.tar.gz
 		mirror://gentoo/iputils-s20121221-manpages.tar.bz2"
 KEYWORDS="~alpha amd64 ~arm ~arm64 ~hppa ~ia64 ~m68k ~mips ~ppc ~ppc64 ~s390 ~sh ~sparc ~x86 ~ppc-aix ~amd64-linux ~x86-linux"
 
-DESCRIPTION="Network monitoring tools including ping and ping6"
+DESCRIPTION="Network monitoring tools including ping"
 HOMEPAGE="https://github.com/iputils/iputils/"
 
 LICENSE="BSD-4"
@@ -53,15 +53,12 @@ ipv6() { usex ipv6 "$*" '' ; }
 
 src_install() {
 	into /
-	dobin arping ping $(ipv6 ping6)
+	dobin arping ping
 	into /usr
 	dobin clockdiff
 	dosbin rarpd rdisc ipg tftpd tracepath $(ipv6 tracepath6)
 
 	dodoc INSTALL RELNOTES
-	use ipv6 \
-		&& dosym ping.8 /usr/share/man/man8/ping6.8 \
-		|| rm -f doc/*6.8
 	rm -f doc/{setkey,traceroute6}.8
 	doman doc/*.8
 
@@ -71,6 +68,5 @@ src_install() {
 pkg_postinst() {
 	fcaps cap_net_raw \
 		bin/{ar,}ping \
-		$(ipv6 bin/ping6) \
 		usr/bin/clockdiff
 }
