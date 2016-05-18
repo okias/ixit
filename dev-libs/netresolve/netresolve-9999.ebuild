@@ -3,12 +3,11 @@
 # $Header: /var/cvsroot/gentoo-x86/dev-libs/libnl/libnl-3.2.9999.ebuild,v 1.1 2013/10/23 10:58:30 jer Exp $
 
 EAPI=5
+GITHUB_USER=pavlix
 
-inherit git-r3 autotools
+inherit ixit-github autotools
 
 DESCRIPTION="Network name resolution library"
-HOMEPAGE="http://www.sourceware.org/netresolve"
-EGIT_REPO_URI="git://sourceware.org/git/netresolve.git"
 LICENSE="BSD-2"
 SLOT="0"
 KEYWORDS=""
