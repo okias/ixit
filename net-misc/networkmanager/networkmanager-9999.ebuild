@@ -84,7 +84,9 @@ RDEPEND="${COMMON_DEPEND}
 DEPEND="${COMMON_DEPEND}
 	$([ ${PV} == 9999 ] || echo "doc? (")
 	dev-util/gdbus-codegen
+	dev-util/gtk-doc
 	dev-util/gtk-doc-am
+	dev-perl/yaml
 	$([ ${PV} == 9999 ] || echo ")")
 	>=dev-util/intltool-0.40
 	>=sys-devel/gettext-0.17
@@ -101,6 +103,8 @@ src_prepare() {
 	EPATCH_SOURCE=${FILESDIR}/patches-${PV} epatch
 
 	use vala && vala_src_prepare
+	use doc && gtkdocize
+	eautopoint
 	eautoreconf
 }
 

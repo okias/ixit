@@ -20,7 +20,7 @@ SLOT="0"
 KEYWORDS=" ~amd64 ~x86"
 IUSE="bluetooth gconf +appindicator +introspection modemmanager"
 
-RDEPEND="
+COMMON_DEPEND="
 	app-crypt/libsecret
 	>=dev-libs/glib-2.32:2
 	>=dev-libs/dbus-glib-0.88
@@ -42,8 +42,13 @@ RDEPEND="
 	virtual/freedesktop-icon-theme
 	virtual/notification-daemon
 	virtual/libgudev:=
+	appindicator? ( dev-libs/libappindicator )
 "
-DEPEND="${RDEPEND}
+RDEPEND="
+	${COMMON_DEPEND}
+"
+DEPEND="
+	${COMMON_DEPEND}
 	virtual/pkgconfig
 	>=dev-util/intltool-0.40
 "
