@@ -12,6 +12,6 @@
 
 inherit git-r3
 
-GITHUB_PROJECT="${PN}"
-HOMEPAGE="https://github.com/${GITHUB_USER}/${GITHUB_PROJECT}"
+GITHUB_PROJECT="${GITHUB_PROJECT:-"${PN}"}"
 EGIT_REPO_URI="${EGIT_REPO_URI:-"https://github.com/${GITHUB_USER}/${GITHUB_PROJECT}.git"}"
+HOMEPAGE="https://github.com/${GITHUB_USER}/${GITHUB_PROJECT}"
