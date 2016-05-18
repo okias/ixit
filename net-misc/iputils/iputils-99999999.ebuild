@@ -15,7 +15,7 @@ HOMEPAGE="https://github.com/iputils/iputils/"
 
 LICENSE="BSD-4"
 SLOT="0"
-IUSE="arping caps clockdiff doc gnutls idn ipv6 libressl rarpd rdisc SECURITY_HAZARD ssl static tftpd tracepath traceroute"
+IUSE="+arping caps clockdiff doc gnutls idn ipv6 libressl rarpd rdisc SECURITY_HAZARD ssl static tftpd +tracepath +traceroute"
 
 LIB_DEPEND="caps? ( sys-libs/libcap[static-libs(+)] )
 	idn? ( net-dns/libidn[static-libs(+)] )
@@ -82,7 +82,11 @@ src_compile() {
 		emake html man
 	fi
 
-	use ipv6 && ln -s ping ping6
+	if use ipv6; then
+		[ -e ping6 ] || ln -s ping ping6
+		[ -e tracepath6 ] || ln -s tracepath tracepath6
+		[ -e traceroute6 ] || ln -s traceroute traceroute6
+	fi
 }
 
 src_install() {
