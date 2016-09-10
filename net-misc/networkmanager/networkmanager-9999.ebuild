@@ -86,7 +86,7 @@ DEPEND="${COMMON_DEPEND}
 	dev-util/gdbus-codegen
 	dev-util/gtk-doc
 	dev-util/gtk-doc-am
-	dev-perl/yaml
+	dev-perl/YAML
 	$([ ${PV} == 9999 ] || echo ")")
 	>=dev-util/intltool-0.40
 	>=sys-devel/gettext-0.17
