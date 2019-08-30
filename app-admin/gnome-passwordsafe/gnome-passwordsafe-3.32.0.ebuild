@@ -11,13 +11,13 @@ HOMEPAGE="https://gitlab.gnome.org/World/PasswordSafe"
 SRC_URI="https://gitlab.gnome.org/World/PasswordSafe/-/archive/${PV}/PasswordSafe-${PV}.tar.bz2"
 
 LICENSE="GPL-2+"
-IUSE="+introspection"
+IUSE="debug +introspection"
 KEYWORDS="~alpha ~amd64 ~arm ~arm64 ~ia64 ~ppc ~ppc64 ~sparc ~x86"
 SLOT="0"
 
 S="${WORKDIR}/PasswordSafe-${PV}"
 
-COMMON_DEPEND="
+RDEPEND="
 	>=dev-lang/python-3.6.5
 	>=dev-python/pykeepass-3.0.3
 	>=x11-libs/gtk+-3.24.1:3[introspection?]
@@ -25,10 +25,15 @@ COMMON_DEPEND="
 	>=dev-libs/libpwquality-1.4.0[python]
 	introspection? ( >=dev-libs/gobject-introspection-0.6.7:= )
 "
-RDEPEND="${COMMON_DEPEND}
+DEPEND="${RDEPEND}
 "
-DEPEND="${COMMON_DEPEND}
-"
+
+src_configure() {
+        local emesonargs=(
+                -Dprofile=$(usex debug development default)
+        )
+        meson_src_configure
+}
 
 pkg_postinst() {
 	gnome2_gconf_install
