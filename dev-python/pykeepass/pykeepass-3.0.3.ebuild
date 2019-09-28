@@ -8,8 +8,8 @@ PYTHON_COMPAT=( python3_{5,6,7} )
 inherit distutils-r1 eutils toolchain-funcs
 
 DESCRIPTION="Python library to interact with keepass databases (supports KDBX3 and KDBX4) "
-HOMEPAGE="https://github.com/pschmitt/pykeepass"
-SRC_URI="https://github.com/pschmitt/pykeepass/archive/${PV}.tar.gz"
+HOMEPAGE="https://github.com/libkeepass/pykeepass"
+SRC_URI="https://github.com/libkeepass/pykeepass/archive/${PV}.tar.gz"
 
 LICENSE="GPL-3"
 SLOT="0"
