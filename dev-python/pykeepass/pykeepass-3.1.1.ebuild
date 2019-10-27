@@ -9,7 +9,7 @@ inherit distutils-r1 eutils toolchain-funcs
 
 DESCRIPTION="Python library to interact with keepass databases (supports KDBX3 and KDBX4) "
 HOMEPAGE="https://github.com/libkeepass/pykeepass"
-SRC_URI="https://github.com/libkeepass/pykeepass/archive/${PV}.tar.gz"
+SRC_URI="https://github.com/libkeepass/pykeepass/archive/${PV}.tar.gz -> ${P}.tar.gz"
 
 LICENSE="GPL-3"
 SLOT="0"
