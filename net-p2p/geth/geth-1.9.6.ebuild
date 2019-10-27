@@ -10,10 +10,8 @@ SRC_URI="https://github.com/ethereum/go-ethereum/archive/v${PV}.tar.gz"
 LICENSE="LGPL-3"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE=""
 
 RDEPEND=""
-
 DEPEND="dev-lang/go"
 
 S="${WORKDIR}/go-ethereum-${PV}"
