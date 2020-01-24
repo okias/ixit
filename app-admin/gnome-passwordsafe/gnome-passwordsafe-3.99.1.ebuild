@@ -1,4 +1,4 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2020 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
@@ -19,7 +19,7 @@ S="${WORKDIR}/PasswordSafe-${PV}"
 
 RDEPEND="
 	>=dev-lang/python-3.6.5
-	>=dev-python/pykeepass-3.0.3
+	>=dev-python/pykeepass-3.1.1
 	>=x11-libs/gtk+-3.24.1:3[introspection?]
 	>=dev-libs/libhandy-0.0.10
 	>=dev-libs/libpwquality-1.4.0[python]
