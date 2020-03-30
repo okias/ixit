@@ -18,21 +18,22 @@ SLOT="0"
 S="${WORKDIR}/PasswordSafe-${PV}"
 
 RDEPEND="
-	>=dev-lang/python-3.6.5
-	>=dev-python/pykeepass-3.1.1
+	>=dev-lang/python-3.6.5:*
+	>=dev-python/pykeepass-3.2.0
 	>=x11-libs/gtk+-3.24.1:3[introspection?]
-	>=dev-libs/libhandy-0.0.10
+	>=dev-libs/libhandy-0.0.13
 	>=dev-libs/libpwquality-1.4.0[python]
 	introspection? ( >=dev-libs/gobject-introspection-0.6.7:= )
 "
-DEPEND="${RDEPEND}
+DEPEND="
+	${RDEPEND}
 "
 
 src_configure() {
-        local emesonargs=(
-                -Dprofile=$(usex debug development default)
-        )
-        meson_src_configure
+	local emesonargs=(
+		-Dprofile=$(usex debug development default)
+	)
+	meson_src_configure
 }
 
 pkg_postinst() {
