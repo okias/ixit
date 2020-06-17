@@ -4,25 +4,25 @@
 EAPI=7
 inherit git-r3 gnome2-utils meson vala xdg-utils
 
-DESCRIPTION="GTK3 client for Mastodon"
+DESCRIPTION="Mastodon client written in GTK3"
 HOMEPAGE="https://github.com/bleakgrey/tootle"
 EGIT_REPO_URI="https://github.com/bleakgrey/tootle.git"
-EGIT_BRANCH="refactor"
 LICENSE="GPL-3"
 
 KEYWORDS=""
 SLOT="0"
 
 RDEPEND="
-	net-libs/libsoup
-	>=dev-libs/granite-0.5.2
 	dev-libs/json-glib
+	>=dev-libs/granite-0.5.2
+	gui-libs/libhandy:1.0/0
+	net-libs/libsoup
 "
 DEPEND="
 	${RDEPEND}
-	virtual/pkgconfig
 	dev-util/meson
 	dev-lang/vala
+	virtual/pkgconfig
 "
 
 src_prepare() {
