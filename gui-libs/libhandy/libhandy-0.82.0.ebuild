@@ -3,12 +3,10 @@
 
 EAPI=7
 
-inherit meson xdg vala virtualx
+inherit gnome.org meson xdg vala virtualx
 
-COMMIT="4c9153abe3e936fb9bf3f4aa1c3c745ca222615b"
 DESCRIPTION="Library with GTK widgets for mobile phones"
 HOMEPAGE="https://gitlab.gnome.org/GNOME/libhandy/"
-SRC_URI="https://gitlab.gnome.org/GNOME/libhandy/-/archive/${PV}/${PV}.tar.bz2 -> ${P}.tar.bz2"
 
 LICENSE="LGPL-2.1+"
 SLOT="1.0/0" # It may or may not break ABI in future versions at this point; if new
@@ -18,7 +16,6 @@ KEYWORDS="~amd64 ~arm ~arm64 ~ia64 ~ppc ~ppc64 ~sparc ~x86"
 IUSE="examples glade gtk-doc +introspection test +vala"
 REQUIRED_USE="vala? ( introspection )"
 RESTRICT="!test? ( test )"
-S="${WORKDIR}/${P}-${COMMIT}"
 
 RDEPEND="
 	>=dev-libs/glib-2.44:2
@@ -38,7 +35,6 @@ BDEPEND="
 "
 
 src_prepare() {
-	cp "${FILESDIR}/${P}-run.in" "${S}/run.in" || die
 	use vala && vala_src_prepare
 	xdg_src_prepare
 }
