@@ -1,0 +1,29 @@
+From d3ba2cbe1522b04b6853829578f4e04b6f58f8a6 Mon Sep 17 00:00:00 2001
+From: Kevin Cozens <kevin@ve3syb.ca>
+Date: Sat, 11 Jul 2020 22:01:59 -0400
+Subject: [PATCH] Allow building GIMP of without vala.
+
+To build GIMP without vala the arguments "--enable-vala=no --with-vala=no"
+must be used during the configuration process. If the --with-vala is not
+provided the build process will still try to build some vala based plug-ins.
+
+Fixes https://gitlab.gnome.org/GNOME/gimp/-/issues/5389
+---
+ configure.ac | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/configure.ac b/configure.ac
+index 44197da3e5..d400a6c2d3 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -2440,6 +2440,7 @@ if test "x$with_vala" = xno; then
+   warning_vala="
+ WARNING: you disabled the installation of core Vala plug-ins. This
+          is discouraged as it won't provide the full GIMP experience."
++  AM_CONDITIONAL(ENABLE_VAPIGEN, test "x$enable_vala" = "xyes")
+ else
+   VAPIGEN_CHECK($VALA_REQUIRED_VERSION)
+   with_vala="yes"
+-- 
+2.17.1
+

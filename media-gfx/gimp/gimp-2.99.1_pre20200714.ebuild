@@ -11,7 +11,7 @@ inherit autotools gnome2 python-single-r1 virtualx
 DESCRIPTION="GNU Image Manipulation Program"
 HOMEPAGE="https://www.gimp.org/"
 
-REV="c280cb9da7a4deee577889326df5685bf58d5c55"
+REV="e5310230317854ecd5399f6db6de38d08dea8f3b"
 SRC_URI="https://gitlab.gnome.org/GNOME/${PN}/-/archive/${REV}/${PN}-${REV}.tar.gz -> ${P}.tar.gz"
 LICENSE="GPL-3 LGPL-3"
 SLOT="2"
@@ -36,10 +36,10 @@ COMMON_DEPEND="
 	dev-libs/libxslt
 	>=gnome-base/librsvg-2.40.6:2
 	>=media-gfx/mypaint-brushes-1.3.0
-	>=media-libs/babl-0.1.74[introspection]
+	>=media-libs/babl-0.1.78[introspection]
 	>=media-libs/fontconfig-2.12.4
 	>=media-libs/freetype-2.1.7
-	>=media-libs/gegl-0.4.24_pre20200417:0.4[cairo,introspection]
+	>=media-libs/gegl-0.4.24:0.4[cairo,introspection]
 	>=media-libs/gexiv2-0.10.6
 	>=media-libs/harfbuzz-0.9.19
 	>=media-libs/lcms-2.8:2
@@ -109,6 +109,7 @@ S="${WORKDIR}/${PN}-${REV}"
 # Bugs 685210 (and duplicate 691070)
 PATCHES=(
 	"${FILESDIR}/${PN}-2.10_fix_test-appdata.patch"
+	"${FILESDIR}/0001-Allow-building-GIMP-of-without-vala.patch"
 )
 
 pkg_setup() {
@@ -160,6 +161,7 @@ src_configure() {
 		--with-bug-report-url=https://bugs.gentoo.org/
 		--with-xmc
 		--without-libbacktrace
+		--without-vala
 		--without-webkit
 		--without-xvfb-run
 		$(use_enable cpu_flags_ppc_altivec altivec)
